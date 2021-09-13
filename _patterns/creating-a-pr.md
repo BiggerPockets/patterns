@@ -16,7 +16,7 @@ What makes a good pull request?
 Assigning reviewers
 -------------------------
 
-Pull Reminders will randomly assign a reviwer. Also consider requesting additional review. Factors that you might consider whilst selecting additional reviewers:
+Pull Reminders will randomly assign a reviewer. Also consider requesting additional review. Factors that you might consider whilst selecting additional reviewers:
 
 - The original author of the code being changed may have valuable insight
 - A specific developer may have expertise in the subject of the PR (e.g. email system, search, Redis, Marketplace)

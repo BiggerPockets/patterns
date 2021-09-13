@@ -3,7 +3,7 @@ categories: Rails
 name: App vs Lib
 ---
 
-Ah Rails.. So many directories! Where should I put my code?
+Ah Rails... so many directories! Where should I put my code?
 
 So that we are consistent we choose to adopt the following:
 

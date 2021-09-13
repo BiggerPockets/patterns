@@ -89,7 +89,7 @@ The most common exception is when the style rules defined would not make sense _
 }
 ````
 
-Above, the `flex` rule defined within `.bar` would not do anything unless it was within the flexbox context established in its parent, `.foo`. In this case, reusability of the flexbox-dependent rules is _undesireable_, as using `.bar` anywhere except within `.foo` would result in unnecessary `flex` rule(s) being applied.
+Above, the `flex` rule defined within `.bar` would not do anything unless it was within the flexbox context established in its parent, `.foo`. In this case, reusability of the flexbox-dependent rules is _undesirable_, as using `.bar` anywhere except within `.foo` would result in unnecessary `flex` rule(s) being applied.
 
 That is not to say that _all_ rules should be defined in a child selector, just because they are coupled with one rule that is. It is acceptable (even encouraged) to write multiple blocks that target the same selector - one as a child of another, and another that is at the top-level - which are responsible for different rules.
 

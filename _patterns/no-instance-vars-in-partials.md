@@ -12,7 +12,7 @@ When we first extract a partial, often for organisational reasons, it is typical
 
 As our application becomes more complex, a view might contain several partials—each expecting their own instance variables—so we’ll need to assign several instance variables in the controller action. The context of these assignments will be a long way away from the nested partial in which they’re used.
 
-If we rely on the “Rails magic” early on, we often pay in complexity later on. This is a pattern of many of the issues that people have with Rails’ HTML rendering environment. If we avoid using instance variables in our partials, they become simpler to reuse, even as our application grows in complexity
+If we rely on the “Rails magic” early on, we often pay in complexity later on. This is a pattern of many of the issues that people have with Rails’ HTML rendering environment. If we avoid using instance variables in our partials, they become simpler to reuse, even as our application grows in complexity.
 
 ## Bad
 
@@ -60,4 +60,4 @@ Since all instance vars have `nil` value assigned by default, the exception migh
 </div>
 ```
 
-In this case an exception is always raised when the `songs` local variable is missed
+In this case an exception is always raised when the `songs` local variable is missed.
