@@ -37,7 +37,7 @@ feature flag that was enabled for a test.
   end
 ````
 
-## Unfreeze time after it's freezed
+## Unfreeze time after it's frozen
 
 ## Bad
 
@@ -68,7 +68,7 @@ feature flag that was enabled for a test.
   end
 ````
 
-## Travel back to current time after time travelling
+## Travel back to the current time after time traveling
 
 ## Bad
 
