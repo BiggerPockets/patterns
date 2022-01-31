@@ -13,7 +13,7 @@ name: Continuous Integration
 > Jez Humble https://youtu.be/Y4H8dW7Ium8?t=1493
 
 * We are *not* doing CI just because we use a CI tool (although that helps)
-* Every day is an absolute minimum - ideally we should be doing this every few hours
+* Deploying once every day is an absolute minimum - ideally we should be doing it every few hours
 * In order for us to achieve this, this we must **continously monitor and improve our feedback cycles**.
 
 **Our Goal**: merging work into mainline every 4 hours.
