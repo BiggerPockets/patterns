@@ -28,7 +28,6 @@ This is particularly useful when more than one dimension is needed for one speci
 ````
 ````scss
 $avatar-badge-container-small: 1.3rem;
-$avatar-badge-container-large: 4rem;
 
 .avatar__badge-container {
   height: $avatar-badge-container-small;
