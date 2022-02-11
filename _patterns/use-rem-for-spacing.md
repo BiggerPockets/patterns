@@ -7,7 +7,7 @@ To provide the best UX and accessibility on the site we should use REM units for
 
 Pixel units are fixed and do not scale with browser settings.
 
-EM units may sometimes be suitable but they are harder to reason about as their final calculation may be relative to complicated nesting logic. Some developers prefer to use EM for media queries but this becomes tricky when a max and min width is declared.
+EM units may sometimes be suitable, but they can be much harder to reason about. The actual rendered size is based on the nearest parent with a font size, so the final calculation may be relative to complicated nesting logic. Some developers prefer to use EM for media queries, but this becomes tricky when a max and min width is declared.
 
 ## Exceptions
 
