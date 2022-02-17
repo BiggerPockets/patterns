@@ -89,6 +89,8 @@ Metrics/CyclomaticComplexity:
 Metrics/LineLength:
   Enabled: true
   Max: 120
+  Exclude:
+    - spec/**/*
 Metrics/MethodLength:
   Enabled: false
 Metrics/ParameterLists:
