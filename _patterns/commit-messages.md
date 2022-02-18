@@ -37,6 +37,12 @@ Further paragraphs come after blank lines.
 - Use a hanging indent
 ```
 
+#### Co-authors
+
+If you pair-programmed you can add co-author(s) in the commit description. Github will show multiple authors on one commit.
+```
+Co-authored-by: name <name@example.com>
+```
 
 ### Message
 
