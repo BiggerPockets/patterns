@@ -47,6 +47,7 @@ Co-authored-by: name <name@example.com>
 ### Message
 
 Write meaningful messages. Messages like: "Set env variable X" are not very useful as that can be seen from looking at the change itself.
+
 A message like "Set variable to enable Y service on Heroku" might be better.
 
 A commit message should aim to answer the questions like:
@@ -57,6 +58,7 @@ A commit message should aim to answer the questions like:
 If you start by writing a good summary of the changes in the PR you can copy that into the squashed commit before merging.
 
 #### Read more here
+
 Tips on how to write a better commit messages
 https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message
 
@@ -64,11 +66,14 @@ https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message
 ## Squashing commits before merge to master
 
 ### Why
+
 Squashing commits before merging to master makes debugging easier and keeps the commit history clean.
 When you are looking at why some changes were made broken commits on the master make it difficult to find why the change has been implemented. You need to search for the relevant PR and if even that doesn't have a good description it just makes it hard or impossible to find the reason why someting was done.
 
 PRs often include many commits reflecting developer's work, with added small commits that fix linter errors, typos and adressing the PR feedback. We end up with many commits that mess up commit history.
+
 That is why it is suggested that once the PR gets approved the commits should be squashed into one with a meaningful commit message before merging.
+
 Sometimes it still makes sense to keep multiple commits before merging, especially when they would help future developers as distinct commits in the git history.
 
 ### How
