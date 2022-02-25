@@ -72,7 +72,9 @@ When you are looking at why some changes were made broken commits on the master 
 
 PRs often include many commits reflecting developer's work, with added small commits that fix linter errors, typos and adressing the PR feedback. We end up with many commits that mess up commit history.
 
-That is why it is suggested that once the PR gets approved the commits should be squashed into one with a meaningful commit message before merging.
+That is why it is suggested that once the PR gets approved the commits should be squashed into one with a meaningful commit message before merging. This means that every single commit message
+you write while your work is in progress doesn't need to be as lenghty and detailed. These commits will be squashed and only the final one will be merged to master, so the quality of those individual commits
+messages doesn't matter as much as they get lost anyway.
 
 Sometimes it still makes sense to keep multiple commits before merging, especially when they would help future developers as distinct commits in the git history.
 
