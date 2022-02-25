@@ -68,7 +68,8 @@ https://thoughtbot.com/blog/5-useful-tips-for-a-better-commit-message
 ### Why
 
 Squashing commits before merging to master makes debugging easier and keeps the commit history clean.
-When you are looking at why some changes were made broken commits on the master make it difficult to find why the change has been implemented. You need to search for the relevant PR and if even that doesn't have a good description it just makes it hard or impossible to find the reason why someting was done.
+When you are looking at why some changes were made broken commits on the master make it difficult to find why the change has been implemented.
+You need to search for the relevant PR and if even that doesn't have a good description it just makes it hard or impossible to find the reason why someting was done.
 
 PRs often include many commits reflecting developer's work, with added small commits that fix linter errors, typos and adressing the PR feedback. We end up with many commits that mess up commit history.
 
@@ -81,3 +82,6 @@ Sometimes it still makes sense to keep multiple commits before merging, especial
 ### How
 
 When merging a PR in Github you can change the button `Merge pull request` by clicking on the right side of it and selecting `Squash and merge`. This will also give you an option to change the message of the squashed commit.
+
+
+![Github squash screenshot](../assets/images/github-squash-screenshot.png)
