@@ -58,6 +58,7 @@ Metrics/BlockLength:
   Exclude:
     - app/admin/**/*
     - config/**/*
+    - db/**/*
     - lib/tasks/**/*
     - spec/**/*
   IgnoredMethods:
