@@ -53,7 +53,7 @@ Lint/Void:
   Enabled: false
 
 Metrics/AbcSize:
-  Max: 20
+  Enabled: false
 Metrics/BlockLength:
   Exclude:
     - app/admin/**/*
