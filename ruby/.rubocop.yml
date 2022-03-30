@@ -5,6 +5,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - db/schema.rb
+    - db/data_schema.rb
     - bin/**/*
     - client/**/*
     - public/**/*
