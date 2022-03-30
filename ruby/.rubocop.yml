@@ -127,6 +127,8 @@ Rails/ActionFilter:
   EnforcedStyle: action
 Rails/Delegate:
   Enabled: false
+Rails/DynamicFindBy:
+  Enabled: false
 Rails/SkipsModelValidations:
   AllowedMethods:
     - increment!
