@@ -11,4 +11,4 @@ These flaky specs are almost always caused by unpredictable inputs, for example 
 
 The randomness of monkey testing often makes bugs found difficult or impossible to reproduce. Unexpected bugs found by monkey testing can also be challenging and time consuming to analyze. In some systems, monkey testing can go on for a long time before finding a bug.
 
-Try to avoid these in favour of deterministic spec inputs. Instead of relying on random data in tests, consider the edge/corner cases and write tests that explicitly exercise them. If test data should be unique consider using a FactoryBot [sequence](https://github.com/thoughtbot/factory_bot/blob/master/GETTING_STARTED.md#sequences).
+Try to avoid these in favour of deterministic spec inputs. Instead of relying on random data in tests, consider the edge/corner cases and write tests that explicitly exercise them. If test data should be unique consider using a FactoryBot [sequence](https://github.com/thoughtbot/factory_bot/blob/main/GETTING_STARTED.md#sequences).
