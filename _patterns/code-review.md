@@ -17,7 +17,7 @@ Having Your Code Reviewed
 * Seek to understand the reviewer's perspective.
 * Try to respond to every comment.
 * Wait to merge the branch until continuous integration tells you the test suite is green in the branch.
-* Request additional review after making major changes as a result of QA feedback
+* Request additional review after making major changes.
 * Merge once you feel confident in the code and its impact on the system.
 
 Reviewing Code
