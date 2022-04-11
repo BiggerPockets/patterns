@@ -20,6 +20,9 @@ Layout/ConditionPosition:
   Enabled: false
 Layout/DotPosition:
   EnforcedStyle: trailing
+Layout/EmptyLinesAroundBlockBody:
+  Exclude:
+    - db/**/*
 Layout/LeadingCommentSpace:
   Enabled: false
 
