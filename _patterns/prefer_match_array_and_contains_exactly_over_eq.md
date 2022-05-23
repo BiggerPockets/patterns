@@ -3,9 +3,9 @@ categories: RSpec
 name: Prefer match_array or contain_exactly over eq
 ---
 
-When checking the contents of an iterable where the order doesnt matter, prefer RSpec's [`match_array`](https://www.rubydoc.info/gems/rspec-expectations/RSpec/Matchers#match_array-instance_method) or [`contain_exactly`](https://www.rubydoc.info/gems/rspec-expectations/RSpec/Matchers#contain_exactly-instance_method) over `eq`.
+When checking the contents of an Enumerable where the order doesnt matter, prefer RSpec's [`match_array`](https://www.rubydoc.info/gems/rspec-expectations/RSpec/Matchers#match_array-instance_method) or [`contain_exactly`](https://www.rubydoc.info/gems/rspec-expectations/RSpec/Matchers#contain_exactly-instance_method) over `eq`.
 
-This practice help us avoid brittle test suites where a refactor may result in a different, but inconsequential, re-ordering of a function's results.
+This practice help us avoid brittle test suites where a code change may result in a different, but inconsequential, re-ordering of a function's results.
 
 ## Bad
 
