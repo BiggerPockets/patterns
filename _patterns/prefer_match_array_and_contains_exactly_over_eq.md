@@ -9,7 +9,7 @@ This practice help us avoid brittle test suites where a code change may result i
 
 ## Bad
 
-In this example, using  `eq` makes an assumption about the behavior of the `User#interests` function as it relates to the order of `add_interest` function calls. This is brittle if `User#interests` is refactored to return this list in a different order.
+In this example, using  `eq` makes an assumption about the behavior of the `User#interests` function as it relates to the order of `add_interest` function calls. This is brittle if `User#interests` is changed to return this list in a different order.
 
 ```ruby
 user.add_interest(interest_a)
