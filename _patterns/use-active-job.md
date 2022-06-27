@@ -3,11 +3,13 @@ categories: Rails
 name: Use ActiveJob
 ---
 
-When writing a background task, use ActiveJob rather than Sidekiq workers.
+When writing a background task, prefer ActiveJob over Sidekiq::Worker.
 
-Benefits include:
-- Advanced serialization and deserialization provided by Rails (GlobalID), allowing us to pass models in as arguments, rather than just IDs
-- If we ever want to use an alternative queueing backend, we can
+Benefits of ActiveJob over Sidekiq::Worker:
+- Advanced serialization and deserialization provided by Rails (GlobalID), allowing us to pass models in as arguments, rather than just IDs.
+- It is easier to switch to a different job processing backend.
+
+Use [`sidekiq_options`](https://github.com/mperham/sidekiq/wiki/Active-Job#customizing-error-handling) if you need more nuanced Sidekiq-specific configuration.
 
 ## Bad
 
