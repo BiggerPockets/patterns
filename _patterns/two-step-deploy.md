@@ -24,7 +24,7 @@ end
 Step 2:
 ````ruby
 
-class RemoveUsersUpdatedAtColumn < Gitlab::Database::Migration[2.0]
+class RemoveUsersUpdatedAtColumn < ActiveRecord::Migration[6.1]
   def up
     remove_column :users, :first_name
   end
