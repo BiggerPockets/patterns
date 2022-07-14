@@ -1,6 +1,6 @@
 ---
 categories: Rails
-name: Avoid ActiveRecord callbacks
+name: Do not use ActiveRecord callbacks
 ---
 
 Unexpected side effects should be avoided. They introduce tight coupling between the data model and the system log. Additionally, it is difficult to opt-out of running callbacks when interacting with models.
