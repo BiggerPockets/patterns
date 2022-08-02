@@ -25,6 +25,11 @@ Layout/EmptyLinesAroundBlockBody:
     - db/**/*
 Layout/LeadingCommentSpace:
   Enabled: false
+Layout/LineLength:
+  Enabled: true
+  Max: 120
+  Exclude:
+    - spec/**/*
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
@@ -92,11 +97,6 @@ Metrics/ClassLength:
   Enabled: false
 Metrics/CyclomaticComplexity:
   Enabled: false
-Metrics/LineLength:
-  Enabled: true
-  Max: 120
-  Exclude:
-    - spec/**/*
 Metrics/MethodLength:
   Enabled: false
 Metrics/ModuleLength:
