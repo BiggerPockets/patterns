@@ -187,7 +187,7 @@ Style/GlobalVars:
 Style/GuardClause:
   Enabled: true
 Style/HashSyntax:
-  SupportedShorthandSyntax: either
+  EnforcedShorthandSyntax: either
 Style/IfUnlessModifier:
   Enabled: false
 Style/IfWithSemicolon:
