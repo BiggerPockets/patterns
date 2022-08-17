@@ -146,6 +146,8 @@ Rails/UnknownEnv:
     - review
     - production
 
+Style/AccessModifierDeclarations:
+  Enabled: false
 Style/Alias:
   Enabled: false
 Style/ArrayJoin:
