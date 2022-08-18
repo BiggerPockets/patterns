@@ -28,7 +28,7 @@ def user_clicked_link(user, link)
   Rails.cache.write("clicked-link/#{user.id}/#{link.id}", true)
 end
 
-def user_clicked_link?(user)
+def user_clicked_link?(user, link)
   !!Rails.cache.read("clicked-link/#{user.id}/#{link.id}")
 end
 ```
