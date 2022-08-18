@@ -10,7 +10,6 @@ The application cache should never be used as the sole store for long-lived obje
 ```ruby
 def user_clicked_link(user, link)
   LinkClick.create!(user:, link:)
-  Rails.cache.delete("clicked-link/#{user.id}/#{link.id}")
 end
 
 def user_clicked_link?(user, link)
