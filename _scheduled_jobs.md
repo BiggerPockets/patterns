@@ -7,7 +7,9 @@ When you have a job you want scheduled to run at specific intervals, much like c
 
 ## Bad
 
-Do not use [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler)
+- Using [Heroku Scheduler](https://devcenter.heroku.com/articles/scheduler)
+- Using another gem
+- Running the task manually on an ad-hoc basis via a Heroku CLI
 
 ## Good
 
