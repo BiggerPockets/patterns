@@ -9,7 +9,7 @@ Caching is hard enough on its own, and it's only made harder when trying to debu
 
 ```ruby
 Rails.cache.fetch("some-key", expires_in: 12.hours) do
-  an_expensive_operation
+  operation
 end
 ```
 
@@ -17,6 +17,6 @@ end
 
 ```ruby
 Rails.cache.fetch("some-key") do
-  an_expensive_operation
+  operation
 end
 ```
