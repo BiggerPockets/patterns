@@ -245,13 +245,13 @@ Style/StringLiterals:
 Style/SymbolArray:
   EnforcedStyle: brackets
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  EnforcedStyleForMultiline: no_comma
   AutoCorrect: false
 Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: consistent_comma
+  EnforcedStyleForMultiline: no_comma
   AutoCorrect: false
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: consistent_comma
+  EnforcedStyleForMultiline: no_comma
   AutoCorrect: false
 Style/TrivialAccessors:
   Enabled: false
