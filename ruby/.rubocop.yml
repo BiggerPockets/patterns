@@ -245,14 +245,11 @@ Style/StringLiterals:
 Style/SymbolArray:
   EnforcedStyle: brackets
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: no_comma
-  AutoCorrect: false
+  Enabled: false
 Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: no_comma
-  AutoCorrect: false
+  Enabled: false
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: no_comma
-  AutoCorrect: false
+  Enabled: false
 Style/TrivialAccessors:
   Enabled: false
 Style/VariableInterpolation:
