@@ -3,21 +3,25 @@ categories: Rails
 name: Handle errors using Rails.error
 ---
 
-When rescuing an exception, very often we want to do similar things:
+When rescuing an exception we want to:
 
-* Send the error to the logs
-* Report to Sentry (only making it a warning if we're catching the exception)
-* Send structured data along with this error so we can debug it later
+* Send to the logs
+* Report to Sentry
+* Send structured data along to help debugging
 
-By default, many Rails teams use a pattern like so:
+By default, many Rails teams use a pattern:
 
 ```ruby
 class RequestQuote
   def call(id)
-    Faraday.get("/api/v1/quotes/#{id}.json")   # Faraday doesn't raise when this fails - but imagine it did!
+    http_client.get("/api/v1/quotes/#{id}.json")
   rescue HTTPFailure => error
     logger.error("Something went wrong")
     Sentry.capture_exception(error)
+  end
+
+  def http_client
+    Faraday.new { |f| f.response :raise_error }
   end
 end
 ```
@@ -49,9 +53,10 @@ Taking the example above, this would become:
 class RequestQuotes
   def call(id)
     Rails.error.handle(HTTPFailure) do
-      Faraday.get("/api/v1/quotes/#{id}.json")
+      http_client.get("/api/v1/quotes/#{id}.json")
     end
   end
+  # ... snip ...
 end
 ```
 
@@ -65,6 +70,89 @@ Rails.error.subscribe(ErrorHandler::SemanticLogger.new)
 # Use https://github.com/getsentry/sentry-ruby/blob/master/sentry-rails/lib/sentry/rails/error_subscriber.rb to send to Sentry
 Rails.error.subscribe(Sentry::Rails::ErrorSubscriber.new)
 ```
+
+## Which method do I use?
+
+Three options:
+
+* `#handle` - most common. Rescues the exception and swallows it. `warning` severity.
+* `#record` - rescues, but then reraises exception. `error` severity.
+* `#report` - use with legacy code that already has complex error handling.
+
+```mermaidjs
+graph TD
+    A[Exception in code] --> C{1. Is the exception</br>already rescued</br>by other code?}
+    C -->|Yes| C1[2. Use #report]
+    C -->|No| D{3. Handling of exception:</br>swallow it or reraise?}
+    D -->|swallow/rescue| E[4. Use #handle]
+    D -->|reraise| F[5. Use #record]
+```
+
+## Examples
+
+Assuming we have the pseudocode:
+
+```ruby
+class Subscriber
+  def report(error, handled:, severity:, context:)
+    logger.log(level: severity, error: error, handled: handled, context: context) # pseudocode
+  end
+end
+
+Rails.error.subscribe(Subscriber.new)
+```
+
+### `#handle` example
+
+```ruby
+class RequestQuotes
+  def call(id)
+    Rails.error.handle(HTTPFailure, fallback: -> { 'invalid' }) do
+      http_client.get("/api/v1/quotes/#{id}.json")
+    end
+  end
+end
+
+RequestQuotes.new.call("invalid-id") # => 'invalid'
+# log entry: { level: :warning, error: 'HTTPFailure', handled: true, context: {}}
+```
+
+Use `#handle` when you need to swallow the exception.
+
+### `#record` example
+  
+```ruby
+class RequestQuotes
+  def call(id)
+    Rails.error.record(HTTPFailure) do             # no fallback option
+      http_client.get("/api/v1/quotes/#{id}.json")
+    end
+  end
+end
+
+RequestQuotes.new.call("invalid-id") # => HTTPFailure (invalid-id cannot be found)
+# log entry: { level: :error, error: 'HTTPFailure', handled: false, context: {}}
+```
+
+Use `#record` when you need to reraise the exception.
+
+### `#report` example
+  
+```ruby
+class RequestQuotes
+  def call(id)
+    http_client.get("/api/v1/quotes/#{id}.json")
+  rescue HTTPFailure => error
+    Rails.error.report(HTTPFailure, handled: true) # No block syntax
+    'invalid'
+  end
+end
+
+RequestQuotes.new.call("invalid-id") # => 'invalid'
+# log entry: { level: :warning, error: 'HTTPFailure', handled: true, context: {}}
+```
+
+Use `#report` when you need to send the error along without any rescuing behavior.
 
 
 ## Bad
