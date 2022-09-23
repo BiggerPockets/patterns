@@ -79,7 +79,7 @@ Three options:
 * `#record` - rescues, but then reraises exception. `error` severity.
 * `#report` - use with legacy code that already has complex error handling.
 
-```mermaidjs
+```mermaid
 graph TD
     A[Exception in code] --> C{1. Is the exception</br>already rescued</br>by other code?}
     C -->|Yes| C1[2. Use #report]
