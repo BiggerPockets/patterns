@@ -173,10 +173,7 @@ end
 
 ```ruby
 def call(relation)
-  Rails.error.handle(
-    US::City::NotFound,            # Currently this only accepts one error class
-    fallback: -> { relation.none } # Return this value when the code fails. Pass in any object that responds to #call.
-  ) do
+  Rails.error.handle(US::City::NotFound, fallback: -> { relation.none }) do
     search_location = US::City.find_by_city_and_state_id!(location.city, location.state)
     # ... snip ...
   end
