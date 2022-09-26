@@ -29,7 +29,7 @@ end
 This has many disadvantages:
 
 1. **Messy** There are three lines of noise to wade through.
-2. **Cognitively heavy** Should we log an error? Or just a warning? Should we send to Sentry or not? Often this overhead means developers fall into sloppy practices, don't think through error handling and it's done inconsistently or just plain wrong.
+2. **Cognitively heavy** Should we log an error? Or just a warning? Should we send to Sentry or not? Often this overhead means developers fall into sloppy practices, don't think through error handling and it's done inconsistently.
 3. **Opaque intent** Because there are no abstractions around error handling, we're not communicating effectively to humans.
 4. **Tightly coupled** If we change the way we log or send to Sentry, these changes will ripple out through the codebase.
 5. **Duplicate code** We have 36 instances of `Rails.logger.error` throughout our codebase and another 33 of `Sentry.capture*`. Want to make a change across all these instances? Good luck.
