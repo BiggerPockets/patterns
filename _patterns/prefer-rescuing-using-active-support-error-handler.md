@@ -28,26 +28,23 @@ end
 
 This has many disadvantages:
 
-1. **Messy** There are three lines of noise to wade through.
-2. **Cognitively heavy** Should we log an error? Or just a warning? Should we send to Sentry or not? Often this overhead means developers fall into sloppy practices, don't think through error handling and it's done inconsistently.
-3. **Opaque intent** Because there are no abstractions around error handling, we're not communicating effectively to humans.
-4. **Tightly coupled** If we change the way we log or send to Sentry, these changes will ripple out through the codebase.
-5. **Duplicate code** We have 36 instances of `Rails.logger.error` throughout our codebase and another 33 of `Sentry.capture*`. Want to make a change across all these instances? Good luck.
-6. **Missing structured data in logs** The point of structured data in logs is we can search, query, group on it. Currently, many of the logging statements are sending a message and no payload. Examples of payload that we should have alongside errors in the logs - ID of object that was missing, or user who executed the code. City and state of a location that's missing. This would make debugging potentially a LOT simpler.
+1. **Cognitively heavy** Every time we rescue, we need to decide what to do.
+2. **Opaque intent** No abstractions mean we're not communicating effectively with humans.
+3. **Tightly coupled, duplicate code** When we change how we log, these changes will ripple out.
+4. **Missing structured data in logs** We can build context into the error and send this to the logs.
 
 ## Solution - `Rails.error`
 
 * Introduced in Rails 7
 * Implemented by [`ActiveSupport::ErrorReporter`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html)
-* Allows for passing in structured context
-* Has three different methods, each with different use cases - [`#handle`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-handle), [`#record`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-record) and [`#report`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-report)
-* Allows a `fallback` to be specified when you want to return an object after rescuing
-* Allows [setting context](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-set_context) at a higher level that will be included in the error
-* Operates on a [pub-sub](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-subscribe) architecture to decouple the rescue site from where we send the error
+* Has three different methods - [`#handle`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-handle), [`#record`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-record) and [`#report`](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-report)
+* Allows a `fallback` to be specified
+* Allows [setting context](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-set_context)
+* Operates on a [pub-sub](https://api.rubyonrails.org/classes/ActiveSupport/ErrorReporter.html#method-i-subscribe) architecture
 
 ## Usage
 
-Taking the example above, this would become:
+Example above becomes:
 
 ```ruby
 class RequestQuotes
@@ -60,16 +57,17 @@ class RequestQuotes
 end
 ```
 
-Then we set up subscribers for the logs and for Sentry:
+Create subscribers:
 
 ```ruby
 # config/initializers/semantic_logger.rb
 Rails.error.subscribe(ErrorHandler::SemanticLogger.new)
 
 # config/initializers/sentry.rb
-# Use https://github.com/getsentry/sentry-ruby/blob/master/sentry-rails/lib/sentry/rails/error_subscriber.rb to send to Sentry
 Rails.error.subscribe(Sentry::Rails::ErrorSubscriber.new)
 ```
+
+And it just works.
 
 ## Which method do I use?
 
@@ -77,7 +75,7 @@ Three options:
 
 * `#handle` - most common. Rescues the exception and swallows it. `warning` severity.
 * `#record` - rescues, but then reraises exception. `error` severity.
-* `#report` - use with legacy code that already has complex error handling.
+* `#report` - use with legacy code with complex error handling.
 
 ```mermaid
 graph TD
@@ -90,7 +88,7 @@ graph TD
 
 ## Examples
 
-Assuming we have the pseudocode:
+Given we have a subscriber:
 
 ```ruby
 class Subscriber
@@ -103,6 +101,8 @@ Rails.error.subscribe(Subscriber.new)
 ```
 
 ### `#handle` example
+
+Use `#handle` when you need to swallow the exception.
 
 ```ruby
 class RequestQuotes
@@ -117,10 +117,10 @@ RequestQuotes.new.call("invalid-id") # => 'invalid'
 # log entry: { level: :warning, error: 'HTTPFailure', handled: true, context: {}}
 ```
 
-Use `#handle` when you need to swallow the exception.
-
 ### `#record` example
   
+Use `#record` when you need to reraise the exception.
+
 ```ruby
 class RequestQuotes
   def call(id)
@@ -134,10 +134,10 @@ RequestQuotes.new.call("invalid-id") # => HTTPFailure (invalid-id cannot be foun
 # log entry: { level: :error, error: 'HTTPFailure', handled: false, context: {}}
 ```
 
-Use `#record` when you need to reraise the exception.
-
 ### `#report` example
   
+Use `#report` when you need to send the error along without any rescuing behavior.
+
 ```ruby
 class RequestQuotes
   def call(id)
@@ -151,9 +151,6 @@ end
 RequestQuotes.new.call("invalid-id") # => 'invalid'
 # log entry: { level: :warning, error: 'HTTPFailure', handled: true, context: {}}
 ```
-
-Use `#report` when you need to send the error along without any rescuing behavior.
-
 
 ## Bad
 
@@ -169,7 +166,6 @@ end
 ```
 
 ## Good
-
 
 ```ruby
 def call(relation)
