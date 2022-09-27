@@ -79,7 +79,7 @@ Three options:
 
 ```mermaid
 graph TD
-    A[Exception in code] --> C{1. Is the exception</br>already rescued</br>by other code?}
+    A[Exception in code] --> C{1. Is the exception</br>rescued in complicated</br>existing legacy code?}
     C -->|Yes| C1[2. Use #report]
     C -->|No| D{3. Handling of exception:</br>swallow it or reraise?}
     D -->|swallow/rescue| E[4. Use #handle]
@@ -137,6 +137,11 @@ RequestQuotes.new.call("invalid-id") # => HTTPFailure (invalid-id cannot be foun
 ### `#report` example
   
 Use `#report` when you need to send the error along without any rescuing behavior.
+
+Some use cases:
+
+* when the `rescue` block [is very complicated](https://github.com/BiggerPockets/biggerpockets/blob/f3422ab30d481ad9f5945f8310e6d20b43c7020f/app/controllers/application_controller.rb#L122-L157)
+* need to rescue multiple error classes (currently `#handle` and `#record` don't support this)
 
 ```ruby
 class RequestQuotes
