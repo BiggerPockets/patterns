@@ -143,7 +143,7 @@ class RequestQuotes
   def call(id)
     http_client.get("/api/v1/quotes/#{id}.json")
   rescue HTTPFailure => error
-    Rails.error.report(HTTPFailure, handled: true) # No block syntax
+    Rails.error.report(error, handled: true) # No block syntax
     'invalid'
   end
 end
