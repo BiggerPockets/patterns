@@ -29,9 +29,9 @@ end
 This has many disadvantages:
 
 1. **Cognitively heavy** - every time we rescue, we need to decide what to do
-2. **Opaque intent** - no abstractions mean we're not communicating effectively with humans
-3. **Tightly coupled, duplicate code** - when we change how we log, these changes will ripple out
-4. **Missing structured data in logs** - we can build context into the error and send this to the logs
+1. **Opaque intent** - no abstractions mean we're not communicating effectively with humans
+1. **Tightly coupled, duplicate code** - when we change how we log, these changes will ripple out
+1. **Missing structured data in logs** - we can build context into the error and send this to the logs
 
 ## Solution - `Rails.error`
 
