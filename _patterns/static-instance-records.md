@@ -53,6 +53,8 @@ If your application assumes that something must exist, then it should be represe
 
 ### ActiveRecord's enum
 
+If the category is only a label, consider not creating a separate model and just use an enum.
+
 ```ruby
 class Company < ApplicationRecord
   enum category: { agent: 1, ... }
@@ -60,6 +62,8 @@ end
 ```
 
 ### ActiveHash
+
+ActiveHash acts like an ActiveRecord object, but it is defined in memory and is thread safe. It's also read-only, which reduces the number of validation checks that will need to be written and maintained.
 
 ```ruby
 class Category < ActiveHash::Base
@@ -70,6 +74,8 @@ end
 ```
 
 ### Validations and Database Constraints
+
+If you absolutely need a record, make sure that you add a database constraint and validation to prevent duplicates.
 
 ```ruby
 class AddUniquenessConstraintToCategory < ActiveRecord::Migration
