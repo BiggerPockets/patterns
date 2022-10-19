@@ -63,7 +63,7 @@ end
 
 ### ActiveHash
 
-ActiveHash acts like an ActiveRecord object, but it is defined in memory and is thread safe. It's also read-only, which reduces the number of validation checks that will need to be written and maintained.
+[ActiveHash](https://github.com/active-hash/active_hash) acts like an ActiveRecord object, but it is defined in memory and is thread safe. It's also read-only, which reduces the number of validation checks that will need to be written and maintained.
 
 ```ruby
 class Category < ActiveHash::Base
