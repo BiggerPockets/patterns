@@ -17,6 +17,8 @@ class Category < ApplicationRecord
 end
 ```
 
+It's whenever you use a static method to refer to something that is actually an instance of an ORM record.
+
 ## Why is this dangerous?
 
 This example assumes that there will only ever be one record with this name, which can be easily overlooked:
