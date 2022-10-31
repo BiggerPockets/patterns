@@ -71,7 +71,7 @@ end
 class Category < ActiveHash::Base
   field :name
 
-  add id: "real-estate-agent", name: "Real Estate Agent"
+  add slug: "real-estate-agent", name: "Real Estate Agent"
 end
 ```
 
