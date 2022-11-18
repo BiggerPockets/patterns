@@ -1,6 +1,6 @@
 License: https://creativecommons.org/licenses/by-sa/4.0/
 Taken from: https://docs.gitlab.com/ee/development/database/polymorphic_associations.html
-No changes were made from the original source
+changes: Change of terminology in line 6
 
 # Polymorphic Associations
 
