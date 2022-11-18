@@ -2,7 +2,7 @@ Taken from: https://docs.gitlab.com/ee/development/database/polymorphic_associat
 
 # Polymorphic Associations
 
-**Summary:** always use separate tables instead of polymorphic associations or single table inheritance.
+**Summary:** Prefer separate tables instead of polymorphic associations or single table inheritance.
 
 Rails makes it possible to define so called "polymorphic associations". This
 usually works by adding two columns to a table: a target type column, and a
