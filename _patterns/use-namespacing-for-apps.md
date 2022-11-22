@@ -40,7 +40,7 @@ Examples from the above:
 
 * Communicates clearly which app an area of code is for
 * Allows for namespacing controllers, models eg: `Marketplace::AgentFinder::Agent`
-* Allows targeting all tools, all content apps using wildcards like `tools.*`
+* Allows targeting all tools, all platform apps using wildcards like `tools.*`
 
 ## Structure of an app namespace
 
