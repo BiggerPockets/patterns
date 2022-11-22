@@ -1,6 +1,6 @@
 ---
 categories: Rails
-name: Use namespacing for apps
+name: Use namespacing for apps and events
 ---
 
 We deploy one app to Heroku. But it's a huge app and there are smaller apps within the larger app.
@@ -36,16 +36,33 @@ Examples from the above:
 * Forum - `community.forum`
 * Blog - `content.blog`
 
-
 ## Why namespace?
 
 * Communicates clearly which app an area of code is for
 * Allows for namespacing controllers, models eg: `Marketplace::AgentFinder::Agent`
 * Allows targeting all tools, all content apps using wildcards like `tools.*`
 
-## Structure of a namespace
+## Structure of an app namespace
 
 `<area>.<app_name>`
+
+## Structure of an event namespace
+
+`<app_namespace>.<domain_object>.<verb_in_past_tense>`
+
+* Do not put technology terms in the namespace such as `stripe`, `iterable` etc
+* Instead, add the domain_object such as `invoice`, `customer`, `email` or `contact`
+
+**Good event names**
+
+* `billing.invoice.paid`
+* `marketing.campaigns.email.sent`
+
+**Poor event names**
+
+* `stripe.invoice.paid` - do not put the technology in the event name. This is an implementation detail and can be put into the payload.
+* `marketing.campaigns.email_send` - no domain object, last section in present tense
+* `contact.updated` - no namespace, no idea which area of the code this affects
 
 ## Examples
 
