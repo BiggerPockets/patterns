@@ -70,7 +70,7 @@ Metrics/BlockLength:
     - db/**/*
     - lib/tasks/**/*
     - spec/**/*
-  IgnoredMethods:
+  AllowedMethods:
     - context
     - describe
     - it
