@@ -3,7 +3,7 @@ categories: Rails
 name: Make small, atomic Sidekiq workers
 ---
 
-We had a [serious issue](https://www.notion.so/biggerpockets/Lead-bundle-subscriptions-incorrectly-pausing-or-resuming-298e9b328c834b148e3c79f12a686004) where users' subscriptions were not being updated.
+We had a [serious issue](https://www.notion.so/biggerpockets/Lead-bundle-subscriptions-incorrectly-pausing-or-resuming-298e9b328c834b148e3c79f12a686004) where user subscriptions were not being updated.
 
 * Break down Sidekiq workers into the smallest functional unit you can
 * If one database failure can block other objects from being updated, that's a sign your design is wrong
