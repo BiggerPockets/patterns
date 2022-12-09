@@ -75,7 +75,8 @@ end
 ```ruby
 module Companies
   module LeadBundleSubscriptions
-    class StartStopPauseJob
+    # Much better name. The opposite of pausing is activating.
+    class ActivateOrPauseJob
       include Sidekiq::Worker
 
       def perform
