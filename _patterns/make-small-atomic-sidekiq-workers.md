@@ -116,7 +116,8 @@ module Companies
 
       def perform(lead_bundle_subscription_id)
         Rails.error.handle(ActiveRecord::RecordNotFound) do
-          ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id).unpause!
+          # Again, #activate! is more descriptive than #unpause!
+          ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id).activate!
         end
       end
     end
