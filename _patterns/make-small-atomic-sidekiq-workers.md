@@ -20,9 +20,10 @@ module Companies
 
       def perform
         ::Companies::LeadBundleSubscription.find_each do |lead_bundle_subscription|
-          next unless lead_bundle_subscription.pause_start_date # This will make a huge database query, only to discard 90% of the records!
+          # ⚠️ This will make a huge database query, only to discard 90% of the records!
+          next unless lead_bundle_subscription.pause_start_date
 
-          # If one of these crashes, it aborts the whole job and a bunch of valid subscriptions aren't updated
+          # ⚠️ If any of these lines cause a crash, it aborts the whole job and valid subscriptions aren't updated
           if lead_bundle_subscription.pause_end_date.past?
             lead_bundle_subscription.unpause!
           else
@@ -40,7 +41,17 @@ end
 ```ruby
 module Companies
   module LeadBundleSubscriptions
-    class StartStopPauseLeadBundleSubscriptionJob
+    class StartStopPauseJob
+      include Sidekiq::Worker
+
+      def perform
+        ::Companies::LeadBundleSubscription.with_pause_start_date.find_each do |lead_bundle_subscription|
+          StartStopPauseSubscriptionJob.perform_async(lead_bundle_subscription.id)
+        end
+      end
+    end
+
+    class StartStopPauseSubscriptionJob
       include Sidekiq::Worker
 
       def perform(lead_bundle_subscription_id)
@@ -54,16 +65,6 @@ module Companies
         end
       end
     end
-
-    class StartStopPauseJob
-      include Sidekiq::Worker
-
-      def perform
-        ::Companies::LeadBundleSubscription.with_pause_start_date.find_each do |lead_bundle_subscription|
-          StartStopPauseLeadBundleSubscriptionJob.perform_async(lead_bundle_subscription.id)
-        end
-      end
-    end
   end
 end
 ```
@@ -74,6 +75,31 @@ end
 ```ruby
 module Companies
   module LeadBundleSubscriptions
+    class StartStopPauseJob
+      include Sidekiq::Worker
+
+      def perform
+        # Use #in_batches for performant queries
+        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_past.in_batches do |subscriptions_batch|
+          # Use Sidekiq Batch Jobs to reduce Redis queries
+          batch.jobs do
+            # #pluck only selects the id column saving memory and query execution time
+            subscriptions_batch.pluck(:id).each do |subscription_id|
+              ActivateJob.perform_async(subscription_id)
+            end
+          end
+        end
+
+        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_future.find_each do |subscriptions_batch|
+          batch.jobs do
+            subscriptions_batch.pluck(:id).each do |subscription_id|
+              PauseJob.perform_async(subscription_id)
+            end
+          end
+        end
+      end
+    end
+
     class PauseJob
       include Sidekiq::Worker
 
@@ -90,20 +116,6 @@ module Companies
       def perform(lead_bundle_subscription_id)
         Rails.error.handle(ActiveRecord::RecordNotFound) do
           ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id).unpause!
-        end
-      end
-    end
-
-    class StartStopPauseJob
-      include Sidekiq::Worker
-
-      def perform
-        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_past.find_each do |lead_bundle_subscription|
-          ActivateJob.perform_async(lead_bundle_subscription.id)
-        end
-
-        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_future.find_each do |lead_bundle_subscription|
-          PauseJob.perform_async(lead_bundle_subscription.id)
         end
       end
     end
