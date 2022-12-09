@@ -13,23 +13,19 @@ We had a [serious issue](https://www.notion.so/biggerpockets/Lead-bundle-subscri
 ## Bad
 
 ```ruby
-module Companies
-  module LeadBundleSubscriptions
-    class StartStopPauseJob
-      include Sidekiq::Worker
+class StartStopPauseJob
+  include Sidekiq::Worker
 
-      def perform
-        ::Companies::LeadBundleSubscription.find_each do |lead_bundle_subscription|
-          # ⚠️ This will make a huge database query, only to discard 90% of the records!
-          next unless lead_bundle_subscription.pause_start_date
+  def perform
+    LeadBundleSubscription.find_each do |lead_bundle_subscription|
+      # ⚠️ This will make a huge database query, only to discard 90% of the records!
+      next unless lead_bundle_subscription.pause_start_date
 
-          # ⚠️ If any of these lines cause a crash, it aborts the whole job and valid subscriptions aren't updated
-          if lead_bundle_subscription.pause_end_date.past?
-            lead_bundle_subscription.unpause!
-          else
-            lead_bundle_subscription.pause!
-          end
-        end
+      # ⚠️ If any of these lines cause a crash, it aborts the whole job and valid subscriptions aren't updated
+      if lead_bundle_subscription.pause_end_date.past?
+        lead_bundle_subscription.unpause!
+      else
+        lead_bundle_subscription.pause!
       end
     end
   end
@@ -39,30 +35,26 @@ end
 ## Better
 
 ```ruby
-module Companies
-  module LeadBundleSubscriptions
-    class StartStopPauseJob
-      include Sidekiq::Worker
+class StartStopPauseJob
+  include Sidekiq::Worker
 
-      def perform
-        ::Companies::LeadBundleSubscription.with_pause_start_date.find_each do |lead_bundle_subscription|
-          StartStopPauseSubscriptionJob.perform_async(lead_bundle_subscription.id)
-        end
-      end
+  def perform
+    LeadBundleSubscription.with_pause_start_date.find_each do |lead_bundle_subscription|
+      StartStopPauseSubscriptionJob.perform_async(lead_bundle_subscription.id)
     end
+  end
+end
 
-    class StartStopPauseSubscriptionJob
-      include Sidekiq::Worker
+class StartStopPauseSubscriptionJob
+  include Sidekiq::Worker
 
-      def perform(lead_bundle_subscription_id)
-        Rails.error.handle(ActiveRecord::RecordNotFound) do
-          lead_bundle_subscription = ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id)
-          if lead_bundle_subscription.pause_end_date.past?
-            lead_bundle_subscription.unpause!
-          else
-            lead_bundle_subscription.pause!
-          end
-        end
+  def perform(lead_bundle_subscription_id)
+    Rails.error.handle(ActiveRecord::RecordNotFound) do
+      lead_bundle_subscription = LeadBundleSubscription.find(lead_bundle_subscription_id)
+      if lead_bundle_subscription.pause_end_date.past?
+        lead_bundle_subscription.unpause!
+      else
+        lead_bundle_subscription.pause!
       end
     end
   end
@@ -73,53 +65,38 @@ end
 
 
 ```ruby
-module Companies
-  module LeadBundleSubscriptions
-    # Much better name. The opposite of pausing is activating.
-    class ActivateOrPauseJob
-      include Sidekiq::Worker
+class ActivateOrPauseJob
+  include Sidekiq::Worker
 
-      def perform
-        # Use #in_batches for performant queries
-        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_past.in_batches do |subscriptions_batch|
-          # Use Sidekiq Batch Jobs to reduce Redis queries
-          batch.jobs do
-            # #pluck only selects the id column saving memory and query execution time
-            subscriptions_batch.pluck(:id).each do |subscription_id|
-              ActivateJob.perform_async(subscription_id)
-            end
-          end
-        end
-
-        ::Companies::LeadBundleSubscription.with_pause_start_date.in_the_future.find_each do |subscriptions_batch|
-          batch.jobs do
-            subscriptions_batch.pluck(:id).each do |subscription_id|
-              PauseJob.perform_async(subscription_id)
-            end
-          end
-        end
-      end
+  def perform
+    # Use #in_batches and #perform_bulk for performant queries and minimise Redis round trips
+    LeadBundleSubscription.with_pause_start_date.in_the_past.in_batches do |subscriptions_batch|
+      ActivateJob.perform_bulk(subscriptions_batch.pluck(:id))
     end
 
-    class PauseJob
-      include Sidekiq::Worker
-
-      def perform(lead_bundle_subscription_id)
-        Rails.error.handle(ActiveRecord::RecordNotFound) do
-          ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id).pause!
-        end
-      end
+    LeadBundleSubscription.with_pause_start_date.in_the_future.in_batches do |subscriptions_batch|
+      PauseJob.perform_bulk(subscriptions_batch.pluck(:id))
     end
+  end
+end
 
-    class ActivateJob
-      include Sidekiq::Worker
+# Small atomic jobs
+class PauseJob
+  include Sidekiq::Worker
 
-      def perform(lead_bundle_subscription_id)
-        Rails.error.handle(ActiveRecord::RecordNotFound) do
-          # Again, #activate! is more descriptive than #unpause!
-          ::Companies::LeadBundleSubscription.find(lead_bundle_subscription_id).activate!
-        end
-      end
+  def perform(lead_bundle_subscription_id)
+    Rails.error.handle(ActiveRecord::RecordNotFound) do
+      LeadBundleSubscription.find(lead_bundle_subscription_id).pause!
+    end
+  end
+end
+
+class ActivateJob
+  include Sidekiq::Worker
+
+  def perform(lead_bundle_subscription_id)
+    Rails.error.handle(ActiveRecord::RecordNotFound) do
+      LeadBundleSubscription.find(lead_bundle_subscription_id).activate!
     end
   end
 end
