@@ -63,7 +63,6 @@ end
 
 ## Best
 
-
 ```ruby
 class ActivateOrPauseJob
   include Sidekiq::Worker
@@ -71,11 +70,11 @@ class ActivateOrPauseJob
   def perform
     # Use #in_batches and #perform_bulk for performant queries and minimise Redis round trips
     LeadBundleSubscription.with_pause_start_date.in_the_past.in_batches do |subscriptions_batch|
-      ActivateJob.perform_bulk(subscriptions_batch.pluck(:id))
+      ActivateJob.perform_bulk(subscriptions_batch.ids.zip)
     end
 
     LeadBundleSubscription.with_pause_start_date.in_the_future.in_batches do |subscriptions_batch|
-      PauseJob.perform_bulk(subscriptions_batch.pluck(:id))
+      PauseJob.perform_bulk(subscriptions_batch.ids.zip)
     end
   end
 end
