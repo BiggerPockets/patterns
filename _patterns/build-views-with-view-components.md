@@ -26,12 +26,12 @@ Here's an example that help illustrate reusability:
 #### Bad
 ```rb
 # app/views/actions.html.erb
-<button type="button" data-view-component="true" class="Button--secondary Button--medium Button">
+<button type="button" class="Button--secondary Button--medium Button">
   <span class="Button-content">
     <span class="Button-label"><%= I18n.t("accept") %></span>
   </span>
 </button>
-<button type="button" data-view-component="true" class="Button--primary Button--medium Button">
+<button type="button" class="Button--primary Button--medium Button">
   <span class="Button-content">
     <span class="Button-label"><%= I18n.t("cancel") %></span>
   </span>
