@@ -95,7 +95,7 @@ Here's an example that help illustrate that:
 
 ### Bad
 ```rb
-<%= render(ButtonWithIcon.new(text: "Button name", icon: "assets/icons/start.svg")) %>
+<%= render(ButtonWithIcon.new(text: "Button name", icon: "assets/icons/star.svg")) %>
 ```
 
 ### Good
