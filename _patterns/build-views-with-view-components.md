@@ -112,7 +112,7 @@ using custom CSS files and using [Tailwind](https://tailwindcss.com) instead.
 If you're having a hard time styling a component using Tailwind reach out to
 someone from the design team to see what adjustment can be made.
 
-Here's an example that help illustrate reusability:
+Here's an example that help illustrate how using Tailwind looks:
 
 #### Bad
 ```rb
@@ -124,7 +124,7 @@ Here's an example that help illustrate reusability:
 </button>
 ```
 
-#### Bad
+#### Good
 ```rb
 # app/views/button.html.erb
 <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm">
