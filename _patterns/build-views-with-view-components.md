@@ -104,3 +104,30 @@ Here's an example that help illustrate that:
   <% component.with_leading_icon(icon: :star) %>
 <% end %>
 ```
+
+### Styling
+
+Avoid using custom styles when building view components. We're moving away from
+using custom CSS files and using [Tailwind](https://tailwindcss.com) instead.
+If you're having a hard time styling a component using Tailwind reach out to
+someone from the design team to see what adjustment can be made.
+
+Here's an example that help illustrate reusability:
+
+#### Bad
+```rb
+# app/views/button.html.erb
+<button type="button" class="button--secondary button--medium button">
+  <span class="button-content">
+    <span class="button-label">Button text</span>
+  </span>
+</button>
+```
+
+#### Bad
+```rb
+# app/views/button.html.erb
+<button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm">
+  Button text
+</button>
+```
