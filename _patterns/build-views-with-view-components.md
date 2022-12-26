@@ -85,8 +85,8 @@ end
 ### Component library
 
 Always check for existing components before creating a new one. Our custom
-component library lives [here](https://lookbook.build) to list all of the
-existing components so that we avoid duplication.
+component library lives [here](https://www.biggerpockets.com/lookbook) to list 
+all of the existing components so that we avoid duplication.
 
 Prefer extending existing components and making them more general over creating
 specialized components that are unlikely to be reused.
