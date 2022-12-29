@@ -129,7 +129,7 @@ Here's an example of what a component preview looks like:
 ```rb
 # spec/components/previews/button_component_preview.rb
 class ButtonComponentPreview < ViewComponent::Preview
-   # Playground
+   # Default
    # ---------------
    # This is the base button that can be customized as described by the
    # parameters.
@@ -138,7 +138,7 @@ class ButtonComponentPreview < ViewComponent::Preview
    # @param size select { choices: [small, medium, large] } "Defaults to `:medium`"
    # @param scheme select { choices: [primary, secondary] } "Defaults to `:primary`"
    # @param expand_on_mobile select { choices: [true, false] } "Defaults to `false`"
-   def playground(type: :button, size: :medium, scheme: :primary, expand_on_mobile: false)
+   def default(type: :button, size: :medium, scheme: :primary, expand_on_mobile: false)
      render ButtonComponent.new(type:, size:, scheme:, expand_on_mobile:) do
        "Button text"
      end
