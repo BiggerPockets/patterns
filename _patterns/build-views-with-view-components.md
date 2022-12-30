@@ -8,6 +8,8 @@ components over the alternatives:
 
 * Partials
 * ERB files with business logic
+* Helpers
+* Decorators
 
 ### Flexible components
 
