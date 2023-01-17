@@ -1,5 +1,5 @@
 ---
-categories: View Components
+categories: Rails
 name: "Using HTML Attributes in View Components"
 ---
 
