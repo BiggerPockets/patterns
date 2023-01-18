@@ -36,7 +36,7 @@ end
 
 ```ruby
 class MyViewComponent < ApplicationViewComponent
-  attr_reader :variant, :attributes
+  attr_reader :variant, :html
 
   def initialize(variant:, html: {})
     @variant = variant
