@@ -38,21 +38,29 @@ end
 class MyViewComponent < ApplicationViewComponent
   attr_reader :variant, :attributes
 
-  def initialize(variant:, **attributes)
+  def initialize(variant:, html: {})
     @variant = variant
-    @attributes = attributes
+    @html = html
+  end
+  
+  def css_classes
+    "#{html[:class]}"
+  end
+  
+  def html_attributes
+    html.except(:class)
   end
 end
 ```
 
 ```erb
 <!-- the template -->
-<%= content_tag(:div, class: "some-class #{Array(attributes[:class]).join(" ")}", **attributes.except(:class)) do %>
+<%= content_tag(:div, class: css_classes, **html_attributes) do %>
   <%= content %>
 <% end %>
 
 <!-- using the component -->
-<% render(ViewComponent.new id: "foo", class: "blue", variant: "number", data: { fizz: :buzz }) do %>
+<% render(ViewComponent.new variant: "number", html: { id: "foo", class: "blue", data: { fizz: :buzz }}) do %>
   <!-- content -->
 <% end %>
 ```
