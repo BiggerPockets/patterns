@@ -14,7 +14,7 @@ We had a [serious issue](https://www.notion.so/biggerpockets/Lead-bundle-subscri
 
 ```ruby
 class StartStopPauseJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform
     LeadBundleSubscription.find_each do |lead_bundle_subscription|
@@ -36,7 +36,7 @@ end
 
 ```ruby
 class StartStopPauseJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform
     LeadBundleSubscription.with_pause_start_date.find_each do |lead_bundle_subscription|
@@ -46,7 +46,7 @@ class StartStopPauseJob
 end
 
 class StartStopPauseSubscriptionJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
     Rails.error.handle(ActiveRecord::RecordNotFound) do
@@ -65,7 +65,7 @@ end
 
 ```ruby
 class ActivateOrPauseJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform
     # Use #in_batches and #perform_bulk for performant queries and minimise Redis round trips
@@ -81,7 +81,7 @@ end
 
 # Small atomic jobs
 class PauseJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
     Rails.error.handle(ActiveRecord::RecordNotFound) do
@@ -91,7 +91,7 @@ class PauseJob
 end
 
 class ActivateJob
-  include Sidekiq::Worker
+  include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
     Rails.error.handle(ActiveRecord::RecordNotFound) do
