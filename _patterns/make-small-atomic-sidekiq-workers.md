@@ -49,13 +49,11 @@ class StartStopPauseSubscriptionJob
   include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
-    Rails.error.handle(ActiveRecord::RecordNotFound) do
-      lead_bundle_subscription = LeadBundleSubscription.find(lead_bundle_subscription_id)
-      if lead_bundle_subscription.pause_end_date.past?
-        lead_bundle_subscription.unpause!
-      else
-        lead_bundle_subscription.pause!
-      end
+    lead_bundle_subscription = LeadBundleSubscription.find(lead_bundle_subscription_id)
+    if lead_bundle_subscription.pause_end_date.past?
+      lead_bundle_subscription.unpause!
+    else
+      lead_bundle_subscription.pause!
     end
   end
 end
