@@ -84,9 +84,7 @@ class PauseJob
   include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
-    Rails.error.handle(ActiveRecord::RecordNotFound) do
-      LeadBundleSubscription.find(lead_bundle_subscription_id).pause!
-    end
+    LeadBundleSubscription.find(lead_bundle_subscription_id).pause!
   end
 end
 
@@ -94,9 +92,7 @@ class ActivateJob
   include Sidekiq::Job
 
   def perform(lead_bundle_subscription_id)
-    Rails.error.handle(ActiveRecord::RecordNotFound) do
-      LeadBundleSubscription.find(lead_bundle_subscription_id).activate!
-    end
+    LeadBundleSubscription.find(lead_bundle_subscription_id).activate!
   end
 end
 ```
