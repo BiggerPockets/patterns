@@ -85,7 +85,7 @@ instead. If you're having a hard time styling a component using Tailwind reach
 out to someone from the design team to discuss making adjustments to the 
 component.
 
-Here's an example that help illustrate how using Tailwind looks as opposed
+Here's an example that illustrates how using Tailwind looks as opposed
 to writting custom CSS:
 
 #### Bad
