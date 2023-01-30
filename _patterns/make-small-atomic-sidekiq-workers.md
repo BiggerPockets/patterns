@@ -1,14 +1,20 @@
 ---
 categories: Rails
-name: Make small, atomic Sidekiq workers
+name: Make small, atomic Sidekiq jobs
 ---
 
-We had a [serious issue](https://www.notion.so/biggerpockets/Lead-bundle-subscriptions-incorrectly-pausing-or-resuming-298e9b328c834b148e3c79f12a686004) where user subscriptions were not being updated.
+## Problem
 
-* Break down Sidekiq workers into the smallest functional unit you can
-* If one database failure can block other objects from being updated, that's a sign your design is wrong
+When Sidekiq jobs are big with too much functionality:
+
+* Can cause defects as we're lumping together behaviour that doesn't necessarily belong together
+* Can significantly hold up other jobs, blocking the queue and potentially breaching the queue SLA (e.g. `within_five_minutes`)
+
+## Solution
+
+* Break down Sidekiq jobs into the smallest functional unit you can
 * Each Sidekiq job should be able to error independently of others
-* Use either batch jobs in Sidekiq enterprise or have one job enqueue others
+* For dependent jobs, either batch jobs in Sidekiq enterprise or have one job enqueue others
 
 ## Bad
 
