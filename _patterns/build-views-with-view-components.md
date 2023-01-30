@@ -24,7 +24,7 @@ creating additional components. Feature specific components are welcomed, but th
 should be composed by other reusable components. There are more details on this topic 
 [here](https://viewcomponent.org/viewcomponents-at-github.html#the-two-types-of-viewcomponents-we-write).
 
-Here's an example that help illustrate how components can be flexible:
+Here's an example that illustrates how components can be flexible:
 
 #### Bad
 ```rb
