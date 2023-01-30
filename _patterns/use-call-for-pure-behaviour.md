@@ -11,11 +11,9 @@ name: Use call for classes containing pure behaviour
 
 ## Example - [`GetLocalCitySuggestionService`](https://github.com/BiggerPockets/biggerpockets/blob/8b2914fdf835bc24c47a33e773caf1a939ef2edd/app/services/get_local_city_suggestion_service.rb/#L3)
 
-* Consider the [`GetLocalCitySuggestionService` class](https://github.com/BiggerPockets/biggerpockets/blob/8b2914fdf835bc24c47a33e773caf1a939ef2edd/app/services/get_local_city_suggestion_service.rb/#L3) [^1]
+* Consider the [`GetLocalCitySuggestionService` class](https://github.com/BiggerPockets/biggerpockets/blob/8b2914fdf835bc24c47a33e773caf1a939ef2edd/app/services/get_local_city_suggestion_service.rb/#L3)
 * This object has one method - `#perform!`
 * A dead giveaway that this object deals with **pure behaviour and no data**
-
-[^1]: Subclassing from `ServiceObject` is an antipattern. But let's put that aside for now.
 
 ## Use `#call` for pure behaviour
 
