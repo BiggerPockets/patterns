@@ -27,13 +27,13 @@ should be composed by other reusable components. There are more details on this 
 Here's an example that illustrates how components can be flexible:
 
 #### Bad
-```rb
+```erb
 <%= render BigButton.new(text: "Big button") %>
 <%= render ButtonWithIcon.new(text: "Button with icon", icon: "assets/icons/star.svg") %>
 ```
 
 #### Good
-```rb
+```erb
 <%= render Button.new(text: "Big button", size: :large) %>
 <%= render Button.new(text: "Button with icon") do |component| %>
   <% component.with_leading_icon(icon: "assets/icons/star.svg") %>
@@ -96,7 +96,7 @@ to writting custom CSS:
   &-label { ... }
 }
 ```
-```rb
+```erb
 # app/components/button.html.erb
 <button type="button" class="button">
   <span class="button-content">
@@ -107,11 +107,53 @@ to writting custom CSS:
 
 #### Good
 
-```rb
+```erb
 # app/components/button.html.erb
 <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm">
   Button text
 </button>
+```
+
+### Dynamic styling with Tailwind
+Some components may require different styling based on their state or arguments passed to them,
+and this can be a challenge to handle when working Tailwind because it [requires CSS classes to be spelled out](https://github.com/rails/tailwindcss-rails#class-names-must-be-spelled-out). In order to make this work we need to define
+and spell out all CSS classes a component can use by using methods on the component ruby class.
+
+
+#### Bad
+This will not work:
+```rb
+class Button
+  def initialize(scheme:)
+    @scheme = scheme
+  end
+
+  def scheme_color
+    scheme == :primary ? "blue" : "white"
+  end
+end
+```
+
+```erb
+`<input class="bg-<%= scheme_color %>" />`
+```
+
+#### Good
+
+```rb
+class Button
+  def initialize(scheme:)
+    @scheme = scheme
+  end
+
+  def scheme_color_class
+    scheme == :primary ? "bg-blue" : "bg-white"
+  end
+end
+```
+
+```erb
+<input class="<%= scheme_color_class %>" />
 ```
 
 ### Shared components
