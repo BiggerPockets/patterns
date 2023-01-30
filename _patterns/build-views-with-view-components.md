@@ -79,16 +79,17 @@ end
 
 ### Styled components
 
-Avoid using writting CSS when building view components. We're moving away
+Avoid using writing CSS when building view components. We're moving away
 from using custom CSS files and using [Tailwind](https://tailwindcss.com)
 instead. If you're having a hard time styling a component using Tailwind reach
 out to someone from the design team to discuss making adjustments to the
 component.
 
 Here's an example that illustrates how using Tailwind looks as opposed
-to writting custom CSS:
+to writing custom CSS:
 
 #### Bad
+
 ```css
 # app/components/button.scss
 .button {
@@ -96,6 +97,7 @@ to writting custom CSS:
   &-label { ... }
 }
 ```
+
 ```erb
 # app/components/button.html.erb
 <button type="button" class="button">
@@ -122,6 +124,7 @@ and spell out all CSS classes a component can use by using methods on the compon
 
 #### Bad
 This will not work:
+
 ```rb
 class Button
   def initialize(scheme:)
@@ -162,14 +165,14 @@ Always check [our custom component library](https://www.biggerpockets.com/lookbo
 before creating a new one. The goal of our component library is to succinctly provide
 the minimum building blocks necessary for implementing the view layer of all user facing features.
 
-To make sure new components are included in the component library
-a [component preview](https://viewcomponent.org/guide/previews.html) is required.
-Previews should include [annotations](https://lookbook.build/guide/previews/annotating/)
-and parameter descriptions. It should also ideally present the default use of
-the component along with common variations. Component previews automatically get
-included in the Lookbook.
+Keep in mind to:
+* Make sure new components are included in the component library by creating a [component preview](https://viewcomponent.org/guide/previews.html).
+* Previews should include [annotations](https://lookbook.build/guide/previews/annotating/) and parameter descriptions.
+* Annotations be used to describe the default use of the component along with common variations.
+* All component previews automatically get included in the Lookbook so make sure to check how it looks there.
 
 Here's an example of what a component preview looks like:
+
 ```rb
 # spec/components/previews/button_component_preview.rb
 class ButtonComponentPreview < ViewComponent::Preview
