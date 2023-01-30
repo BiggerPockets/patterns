@@ -116,9 +116,8 @@ to writting custom CSS:
 ### Shared components
 
 Always check [our custom component library](https://www.biggerpockets.com/lookbook) 
-before creating a new one. The goal of our component library is not to grow 
-indefinitely but instead to provide the building blocks to implement the view layer 
-of all user facing features.
+before creating a new one. The goal of our component library is to succinctly provide
+the minimum building blocks necessary for implementing the view layer of all user facing features.
 
 To make sure new components are included in the component library
 a [component preview](https://viewcomponent.org/guide/previews.html) is required. 
