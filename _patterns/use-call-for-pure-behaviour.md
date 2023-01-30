@@ -127,15 +127,13 @@ Rails.configure do
 end
 ```
 
-But... the Google maps suggestion service needs an API key. Hmmm...
+The Google maps suggestion service needs an API key.
 
-At this point we need to resort to setting class level variables on `GoogleMapsSuggestionService`:
+We need to resort to setting class level variables on `GoogleMapsSuggestionService`:
 
 ```ruby
 GoogleMapsSuggestionService.api_key = ENV.fetch('GOOGLE_MAPS_API_KEY')
 ```
-
-Yuck. This is now a global variable that can be mutated by any thread. 
 
 Can we do better?
 
@@ -143,17 +141,19 @@ Can we do better?
 
 Want to have the real suggestion service for production, but a dummy one for test mode?
 
-No worries! Because we've got our dependencies defined correctly and we've got a consistent interface, we can:
+Because we've got our dependencies defined correctly and we've got a consistent interface, we can:
 
 ```ruby
 # test.rb
 Rails.configure do
-  city_suggestion_service = ->(lat:, lng:) { [{ name: "Dummy Location", postcode: "AB123 456" }]} # Use a lambda no problem!
+  # Use a lambda
+  city_suggestion_service = ->(lat:, lng:) { [{ name: "Dummy Location", postcode: "AB123 456" }]}
 end
 
 # production.rb
 Rails.configure do
-  city_suggestion_service = GoogleMapsSuggestionService.new(api_key: ENV.fetch('GOOGLE_MAPS_API_KEY')) # Or use a fully fledged object
+  # Or a full object
+  city_suggestion_service = GoogleMapsSuggestionService.new(api_key: ENV.fetch('GOOGLE_MAPS_API_KEY'))
 end
 ```
 
