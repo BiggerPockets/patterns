@@ -6,13 +6,13 @@ name: Use feature repo for feature access checks
 ## Context
 
 * We had lots of code inside controllers and views checking for methods like `#has_premium_benefits?` on user
-* This code determines if the user has access to a **feature**
+* This code is really checking if the user has access to a feature
 
 ## Problem
 
-* When a change is made to features or how access is granted, we need to make many changes throughout the codebase
-* We cannot at a glance see which features the app contains, or which subscription levels have access to them
-* The concept of a "feature" is missing from the code so it doesn't communicate intent as clearly as it could do
+* Code is brittle - one change to how subscriptions work mean shotgun surgery on the codebase
+* Difficult to reason about features - we can't see in one place the features of the app or which subscription levels are granted access
+* Code doesn't communicate intent - the concept of a "feature" is missing
 
 ## Solution
 
