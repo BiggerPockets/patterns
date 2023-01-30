@@ -29,7 +29,7 @@ Here's an example that illustrates how components can be flexible:
 #### Bad
 ```rb
 <%= render BigButton.new(text: "Big button") %>
-<%= render ButtonWithIcon.new(text: "Button name", icon: "assets/icons/star.svg") %>
+<%= render ButtonWithIcon.new(text: "Button with icon", icon: "assets/icons/star.svg") %>
 ```
 
 #### Good
