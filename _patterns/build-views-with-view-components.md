@@ -19,9 +19,9 @@ part of the application.
 In order to make components more reusable the library provides us with concepts like
 the `content` helper and [slots](https://viewcomponent.org/guide/slots.html).
 
-Prefer extending component or composing new ones with existing ones over 
-creating additional components. Feature specific components are welcomed, but they 
-should be composed by other reusable components. There are more details on this topic 
+Prefer extending component or composing new ones with existing ones over
+creating additional components. Feature specific components are welcomed, but they
+should be composed by other reusable components. There are more details on this topic
 [here](https://viewcomponent.org/viewcomponents-at-github.html#the-two-types-of-viewcomponents-we-write).
 
 Here's an example that illustrates how components can be flexible:
@@ -59,12 +59,12 @@ Here's an example that help illustrate how simple a component test can be:
 ```rb
 # app/components/table_component.rb
 class TableComponent < ApplicationComponent
-  def initialize(collection:)
-    @collection = collection
+  def initialize(database_records:)
+    @database_records = database_records
   end
 
   def render?
-    @collection.any?
+    @database_records.any?
   end
 end
 
@@ -80,9 +80,9 @@ end
 ### Styled components
 
 Avoid using writting CSS when building view components. We're moving away
-from using custom CSS files and using [Tailwind](https://tailwindcss.com) 
-instead. If you're having a hard time styling a component using Tailwind reach 
-out to someone from the design team to discuss making adjustments to the 
+from using custom CSS files and using [Tailwind](https://tailwindcss.com)
+instead. If you're having a hard time styling a component using Tailwind reach
+out to someone from the design team to discuss making adjustments to the
 component.
 
 Here's an example that illustrates how using Tailwind looks as opposed
@@ -116,15 +116,15 @@ to writting custom CSS:
 
 ### Shared components
 
-Always check [our custom component library](https://www.biggerpockets.com/lookbook) 
+Always check [our custom component library](https://www.biggerpockets.com/lookbook)
 before creating a new one. The goal of our component library is to succinctly provide
 the minimum building blocks necessary for implementing the view layer of all user facing features.
 
 To make sure new components are included in the component library
-a [component preview](https://viewcomponent.org/guide/previews.html) is required. 
-Previews should include [annotations](https://lookbook.build/guide/previews/annotating/) 
-and parameter descriptions. It should also ideally present the default use of 
-the component along with common variations. Component previews automatically get 
+a [component preview](https://viewcomponent.org/guide/previews.html) is required.
+Previews should include [annotations](https://lookbook.build/guide/previews/annotating/)
+and parameter descriptions. It should also ideally present the default use of
+the component along with common variations. Component previews automatically get
 included in the Lookbook.
 
 Here's an example of what a component preview looks like:
