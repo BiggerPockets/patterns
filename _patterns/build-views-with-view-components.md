@@ -106,6 +106,7 @@ to writting custom CSS:
 ```
 
 #### Good
+
 ```rb
 # app/components/button.html.erb
 <button type="button" class="inline-flex items-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm">
