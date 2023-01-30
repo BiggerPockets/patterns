@@ -19,7 +19,7 @@ part of the application.
 In order to make components more reusable the library provides us with concepts like
 the `content` helper and [slots](https://viewcomponent.org/guide/slots.html).
 
-Always prefer extending component or composing new ones with existing ones over 
+Prefer extending component or composing new ones with existing ones over 
 creating additional components. Feature specific components are welcomed, but they 
 should be composed by other reusable components. There are more details on this topic 
 [here](https://viewcomponent.org/viewcomponents-at-github.html#the-two-types-of-viewcomponents-we-write).
