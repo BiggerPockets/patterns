@@ -26,10 +26,7 @@ Layout/EmptyLinesAroundBlockBody:
 Layout/LeadingCommentSpace:
   Enabled: false
 Layout/LineLength:
-  Enabled: true
-  Max: 120
-  Exclude:
-    - spec/**/*
+  Enabled: false
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
