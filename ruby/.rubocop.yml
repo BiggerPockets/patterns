@@ -27,7 +27,6 @@ Layout/LeadingCommentSpace:
   Enabled: false
 Layout/LineLength:
   Enabled: false
-
 Lint/AmbiguousBlockAssociation:
   Exclude:
     - spec/**/*
