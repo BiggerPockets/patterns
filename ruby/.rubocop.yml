@@ -31,11 +31,11 @@ Layout/LineLength:
   Enabled: true
   Max: 120
   Exclude:
-    - spec/**/*
+    - !ruby/regexp /spec\/(?!components\/previews)/
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
-    - spec/**/*
+    - !ruby/regexp /spec\/(?!components\/previews)/
 Lint/AmbiguousOperator:
   Enabled: false
 Lint/AmbiguousRegexpLiteral:
@@ -71,7 +71,7 @@ Metrics/BlockLength:
     - config/**/*
     - db/**/*
     - lib/tasks/**/*
-    - spec/**/*
+    - !ruby/regexp /spec\/(?!components\/previews)/
   AllowedMethods:
     - context
     - describe
