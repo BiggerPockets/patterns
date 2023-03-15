@@ -137,6 +137,8 @@ Rails/Delegate:
   Enabled: false
 Rails/DynamicFindBy:
   Enabled: false
+Rails/RedundantPresenceValidationOnBelongsTo:
+  Enabled: false
 Rails/SkipsModelValidations:
   AllowedMethods:
     - increment!
