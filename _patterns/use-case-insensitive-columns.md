@@ -29,7 +29,7 @@ This way, lower or downcase can be removed and citext will autmatically compare 
 
 ## How do I use Citext?
 
-1. `t.string :county, :citext` - when you need to define a column type in a migration.
+1. `t.citext :county` - when you need to define a column type in a migration.
 2. `change_column :users, :email, :citext` - when you need to update the column type.
 
 ### Bad
