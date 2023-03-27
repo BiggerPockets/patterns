@@ -5,7 +5,7 @@ name: Use feature repo for feature access checks
 
 ## Context
 
-* We had lots of code inside controllers and views checking for methods like `#has_premium_benefits?` on user
+* Lots of code inside controllers and views that make specific queries like `#has_paid_subscription?` to user
 * This code is really checking if the user has access to a feature
 
 ## Problem
@@ -24,15 +24,15 @@ name: Use feature repo for feature access checks
 ## Bad
 
 ```ruby
-class WebinarBonusesController < ApplicationController
-  before_action :require_annual, only: :create
+class PaidReportsController < ApplicationController
+  before_action :require_paid, only: :create
 
   def create
     # ...
   end
 
-  def require_annual
-    return if current_user.paid_annual? || current_user.has_premium_benefits?
+  def require_paid
+    return unless current_user.has_paid_subscription? && current_user.investor?
 
     # ...
   end
@@ -40,20 +40,18 @@ class WebinarBonusesController < ApplicationController
 end
 ```
 
-Taken from the code [as it used to be](https://github.com/BiggerPockets/biggerpockets/blob/eadc8aa5cf73b2d697a12b9cdff28f2421e0ca6e/app/controllers/webinar_bonuses_controller.rb#L41-L46).
-
 ## Good
 
 ```ruby
-class WebinarBonusesController < ApplicationController
-  before_action :require_annual, only: :create
+class PaidReportsController < ApplicationController
+  before_action :require_paid, only: :create
 
   def create
     # ...
   end
 
- def require_annual
-    return if feature.enabled?("membership.signup.access_to_webinar_bonuses", user: current_user)
+ def require_paid
+    return if feature.disabled?("membership.reporting.report_access_allowed", user: current_user)
 
     # ...
   end
@@ -69,9 +67,8 @@ Then in the `Features` module:
 module Features
   FEATURES = {
     # ...
-    "membership.signup.access_to_webinar_bonuses" => [ # <== 
+    "membership.reporting.report_access_allowed" => [
       { subscription_level: :premium, enabled: true },
-      { subscription_level: :pro, subscription_period: :annual, enabled: true },
       { subscription_level: :none, enabled: false }
     ],
     # ...
@@ -89,7 +86,7 @@ module Events
   class Event < Dry::Struct
     # ...
     APP_NAMES = {
-      "membership.signup" => "Membership signup",
+      "membership.reporting" => "Membership Reporting",
       # ...
     }
   end
