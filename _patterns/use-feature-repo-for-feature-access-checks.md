@@ -1,6 +1,6 @@
 ---
 categories: Ruby
-name: Use feature repo for feature access checks
+name: Describe features at a high level rather than querying the user model directly
 ---
 
 ## Context
@@ -16,10 +16,9 @@ name: Use feature repo for feature access checks
 
 ## Solution
 
-* There's a single place for all feature configuration to be stored - [the `FeatureRepo`](https://github.com/BiggerPockets/biggerpockets/blob/86ee130dce1a272dd5ad59689ed4226de24bac89/lib/features/feature_repo.rb#L10)
 * Features are named using a namespace
 * Features are configured with a `:subscription_level`, `:enabled` or `:value`
-* Features can be checked with `FeatureRepo#enabled?` or `FeatureRepo#value`
+* Features can be accessed with `feature.enabled?`, `feature.disabled?` or `feature.value`
 
 ## Bad
 
@@ -56,39 +55,5 @@ class PaidReportsController < ApplicationController
     # ...
   end
   # ...
-end
-```
-
-Then in the `Features` module:
-
-```ruby
-# lib/features/feature_repo.rb
-
-module Features
-  FEATURES = {
-    # ...
-    "membership.reporting.report_access_allowed" => [
-      { subscription_level: :premium, enabled: true },
-      { subscription_level: :none, enabled: false }
-    ],
-    # ...
-  }
-  # ...
-end
-```
-
-You may need to add the app name:
-
-```ruby
-# lib/events/event.rb
-
-module Events
-  class Event < Dry::Struct
-    # ...
-    APP_NAMES = {
-      "membership.reporting" => "Membership Reporting",
-      # ...
-    }
-  end
 end
 ```
