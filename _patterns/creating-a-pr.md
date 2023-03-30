@@ -27,7 +27,7 @@ Goals in order of importance:
 2. To prompt for better ways at approaching the problem
 3. To look at the problem through fresh eyes
 4. To encourage good design and progress of the codebase
-5. To ask for the PR is small enough so they can productively review
+5. To ask for the PR to be small enough so they can productively review it
 
 ## What should be included in a PR?
 
