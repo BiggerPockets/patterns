@@ -3,7 +3,7 @@ categories: Rails
 name: Prefer SimpleDelegator over method_missing for wrapper classes
 ---
 
-If you find yourself needing make a light wrapper for an object to extend it with new methods, prefer using the standard
+If you find yourself needing to make a light wrapper for an object to extend it with new methods, prefer using the standard
 library's `SimpleDelegator` over implementing `method_missing` to reduce boilerplate.
 
 Note that this pattern only applies to plain Ruby wrappers.
