@@ -51,7 +51,7 @@ D2. The **how** is detailed and includes links to the relevant source code
 
 D3. The **why** [will help us understand the change](https://www.pullrequest.com/blog/writing-a-great-pull-request-description/) 6 months from now
 
-D4. Manual test results included
+D4. Contains manual test results
 
 ### **Code**
 
