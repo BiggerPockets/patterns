@@ -94,7 +94,7 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 7. Tested on a review app or locally
 
-8. Adequate unit test coverage of changes made
+8. Adequate automated test coverage of changes made
 
 9. Author has reviewed their own PR
 
