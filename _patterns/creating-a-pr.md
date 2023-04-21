@@ -98,7 +98,7 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 9. Author has reviewed their own PR
 
-10. In person review scheduled if change is non trivial
+10. Live review scheduled if change is non trivial
 
 ### **For UI changes**
 
