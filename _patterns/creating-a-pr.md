@@ -120,10 +120,9 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 16. Author responses to reviewer comments are clear
 
-17. Every reviewer comment has been responded to and resolved
+17. When feedback has been actioned, the commit sha of the fix is in the comment and the comment has been resolved
 
-18. When feedback has been actioned, the commit sha of the fix is in the comment and the comment has been resolved
-
+18. Every reviewer comment has been responded to and resolved
 
 ## Example of a great PR
 
