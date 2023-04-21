@@ -29,6 +29,22 @@ Goals in order of importance:
 4. To encourage good design and progress of the codebase
 5. To ask for the PR to be small enough so they can productively review it
 
+## Timescales of review
+
+Reviewer - When asked to review a PR, please let the author know when you'll be able to review it. Leave a comment on the PR with the expectation.
+
+Author - This allows the author to plan their day and gives the reviewer a deadline to work towards
+
+## Scope creep
+
+Authors - if you get feedback that's outside the scope of the ticket, create another ticket and add link in comment and resolve the comment.
+
+Reviewers - if you give feedback that's outside the scope, bear in mind it won't necessarily be addressed within this PR.
+
+Sebastian - Create two PR templates - with UI changes and without
+
+### TODO find a way of shrinking this down - focus on reviewers and authors
+
 ## What should be included in a PR?
 
 PRs should be small and focussed.
