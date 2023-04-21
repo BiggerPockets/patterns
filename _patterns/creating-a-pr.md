@@ -104,7 +104,7 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 11. PR includes before and after videos or screenshots
 
-12. Tested on the [supported browsers](https://www.notion.so/Device-and-browser-testing-8bdb455a871c48b8acae1b6f1363c6eb), screenshots included in the PR
+12. Tested on the [supported browsers](https://www.notion.so/Device-and-browser-testing-8bdb455a871c48b8acae1b6f1363c6eb), videos or screenshots included in the PR
 
 ### **For defects**
 
@@ -114,7 +114,7 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 14. Tested events coming through via [the Segment debugger](https://app.segment.com/biggerpockets/sources/analytics_dev_environment/debugger)
 
-15. Screenshots taken of the events asserting what you expect - [see example](https://github.com/BiggerPockets/biggerpockets/pull/15150#issuecomment-1127803825)
+15. Videos or screenshots taken of the events asserting what you expect - [see example](https://github.com/BiggerPockets/biggerpockets/pull/15150#issuecomment-1127803825)
 
 ### During Review
 
