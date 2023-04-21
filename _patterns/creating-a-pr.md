@@ -102,7 +102,7 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 ### **For UI changes**
 
-11. PR includes before and after screenshots
+11. PR includes before and after videos or screenshots
 
 12. Tested on the [supported browsers](https://www.notion.so/Device-and-browser-testing-8bdb455a871c48b8acae1b6f1363c6eb), screenshots included in the PR
 
