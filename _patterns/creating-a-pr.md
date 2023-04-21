@@ -84,9 +84,9 @@ Check everything on the [PR Checklist](#pr-checklist)
 
 3. Contains link to Jira ticket
 
-4. The **how** is detailed and includes links to the relevant source code
+4. The **why** [will help us understand the change](https://www.pullrequest.com/blog/writing-a-great-pull-request-description/) 6 months from now
 
-5. The **why** [will help us understand the change](https://www.pullrequest.com/blog/writing-a-great-pull-request-description/) 6 months from now
+5. The **how** is detailed and includes links to the relevant source code
 
 6. Manual test results included
 
