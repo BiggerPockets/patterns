@@ -12,8 +12,6 @@ Note that this pattern only applies to plain Ruby wrappers.
 
 ```ruby
 class Wrapper
-  attr_reader :wrapped
-
   def initialize(wrapped)
     @wrapped = wrapped
   end
@@ -22,9 +20,9 @@ class Wrapper
     wrapped.fetch(:expired_at) > Time.now
   end
 
-  def method_missing(meth, *args, **kwargs, &block)
+  def method_missing(meth, ...)
     if wrapped.respond_to?(meth)
-      wrapped.send(meth, *args, **kwargs, &block)
+      wrapped.send(meth, ...)
     else
       raise NotImplemented
     end
@@ -33,6 +31,10 @@ class Wrapper
   def respond_to_missing?(meth)
     wrapped.respond_to?(meth)
   end
+
+  private
+
+  attr_reader :wrapped
 end
 ```
 
