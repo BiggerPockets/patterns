@@ -1,5 +1,5 @@
 ---
-categories: Rails
+categories: Ruby
 name: Prefer SimpleDelegator over method_missing for wrapper classes
 ---
 
