@@ -1,27 +1,60 @@
 ---
 categories: Rails
-name: How to use concerns
+name: Don't misuse modules and concerns
 ---
 
-> TL;DR. Don't use Rails concerns.
+Because modules and concerns enable multiple-inheritance in Ruby, they can be a great way to share reusable
+functionality between classes. However, they can be misused.
 
-Concerns are a great way to share reusable functionality between classes. They come with drawbacks however as discussed [here](https://medium.com/@carlescliment/about-rails-concerns-a6b2f1776d7d).
-
-Almost every problem using a concern solves, can be solved in more explicit ways. For example with inheritence, or object-oriented code.
-
-## Good
+### Good
 
 We should use concerns to:
-- Share concrete, discrete functionality between classes. An example might be a concern called `Notifable`. Such use-cases are usually rare.
 
-## Bad
+- Share concrete, discrete functionality between classes. For example, a `HasNotifications` concern might be used to
+  extend a `User` and `Company` class so that they both have the behavior for managing notifications.
+
+```ruby
+module HasNotifications
+  extend ActiveSupport::Concern
+
+  included do
+    has_many :notifications, dependent: :destroy, as: :notified
+  end
+end
+
+class User
+  include HasNotifications
+end
+
+class Company
+  include HasNotifications
+end
+```
+
+### Bad
 
 We should not use concerns to:
+
 - Make a class "smaller", as this is purely cosmetic
 - Avoid placing code at the correct layer of our MVC architecture
 - Abstract logic that belongs in a PORO
-- Operate any business logic
+
+```ruby
+module UserExtensions
+  module Notifications
+    extend ActiveSupport::Concern
+
+    included do
+      has_many :notifications, dependent: :destroy
+    end
+  end
+end
+
+class User
+  include UserExtensions::Notifications
+end
+```
 
 ## Further reading
 
-https://medium.com/@carlescliment/about-rails-concerns-a6b2f1776d7d
+- [About Rails Concerns](https://medium.com/@carlescliment/about-rails-concerns-a6b2f1776d7d)
