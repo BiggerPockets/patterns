@@ -1,9 +1,9 @@
 ---
 categories: Rails
-name: Restrict controllers to CRUD actions
+name: Prefer CRUD actions in controllers
 ---
 
-In a Rails application, each controller should represent a _resource_ type. In a RESTful design, the only actions an API consumer should be able to perform on a resource are: reading, creation, modification, and deletion. Rails usually will map these actions to HTTP verb -> method name pairs:
+In a Rails application, controllers typically represent a _resource_ type. In a RESTful design, the only actions an API consumer should be able to perform on a resource are: reading, creation, modification, and deletion. Rails usually will map these actions to HTTP verb -> method name pairs:
 
 * GET / -> #index (collection)
 * GET /new -> #new (collection)
@@ -15,8 +15,9 @@ In a Rails application, each controller should represent a _resource_ type. In a
 
 If you find yourself needing to do anything else to a resource, consider two things:
 
-  a) Does this action actually fit into one of the other actions?
-  b) Am I in fact working with a different type of resource altogether?
+1. Does this action actually fit into one of the other actions?
+1. Am I in fact working with a different type of resource altogether?
+
 
 ## Example 1
 
@@ -63,6 +64,40 @@ class PasswordResetsController < ApplicationController
   # POST /password_resets
   def create
     current_user.reset_password
+  end
+end
+````
+
+When applying this rule, consider the mental overhead of extracting a new resource out of a controller. For example, if
+you want to give the user the ability to delete everything in a collection, it may make more sense to keep the similar
+logic near the other actions. In this case, it's OK to not follow this pattern.
+
+### Bad
+
+````ruby
+class NotificationsController < ApplicationController
+  def index
+    # ...
+  end
+end
+
+class AllNotificationsController < ApplicationController
+  def destroy
+    # operation to destroy all notifications
+  end
+end
+````
+
+### Good
+
+````ruby
+class NotificationsController < ApplicationController
+  def index
+    # ...
+  end
+
+  def destroy_all
+    # operation to destroy all notifications
   end
 end
 ````
