@@ -22,6 +22,9 @@ Layout/ConditionPosition:
   Enabled: false
 Layout/DotPosition:
   EnforcedStyle: trailing
+Layout/EmptyLineAfterMagicComment:
+  Exclude:
+    - db/data_schema.rb
 Layout/EmptyLinesAroundBlockBody:
   Exclude:
     - db/**/*
@@ -187,6 +190,9 @@ Style/Encoding:
   Enabled: false
 Style/EvenOdd:
   Enabled: false
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - db/data_schema.rb
 Style/FormatString:
   Enabled: false
 Style/GlobalVars:
