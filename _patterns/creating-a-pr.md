@@ -63,7 +63,7 @@ Make sure you include everything on the [PR Checklist](#pr-checklist)
 ### Scope creep
 
 * If you give feedback that's outside the scope, bear in mind it won't necessarily be addressed within this PR
-* The author should create a ticket for this follow up work, post a link and resolve the comment
+* The author should create a ticket for this follow-up work, post a link, and resolve the comment. You might be requested to add more details to the ticket in case you're more familiar with its requirements.
 
 ### What should be included in a PR?
 
