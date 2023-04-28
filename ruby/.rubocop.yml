@@ -32,6 +32,7 @@ Layout/LineLength:
   Max: 120
   Exclude:
     - !ruby/regexp /spec\/(?!components\/previews)/
+    - db/schema.rb
 
 Lint/AmbiguousBlockAssociation:
   Exclude:
