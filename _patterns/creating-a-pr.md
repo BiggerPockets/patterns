@@ -20,6 +20,7 @@ Goals in order of importance:
 * Reviewer should be selected based on:
   * Knowledge of reviewer (for example, if changing code related to events, @johngallagher has done work in this area)
   * Skills of reviewer (for example, @karlentwistle is skilled with performance testing)
+  * Use [git blame](https://www.git-scm.com/docs/git-blame) and/or ask the #engineering Slack channel, if you're unsure
 * If other developers have more knowledge than the reviewer, the reviewer can pull them into the conversation
 * For PRs in patterns, always assign the whole of Engineering
 
