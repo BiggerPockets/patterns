@@ -33,7 +33,7 @@ Goals in order of importance:
 ### Scope creep
 
 If you get feedback that's outside the scope of the ticket:
-1. Create another ticket
+1. Create another ticket. Kindly ask the reviewers to help add more details to the ticket if they are more familiar with the requirements.
 2. Link to the ticket in a comment then resolve the comment
 
 
