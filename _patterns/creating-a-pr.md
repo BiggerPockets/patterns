@@ -52,6 +52,7 @@ Make sure you include everything on the [PR Checklist](#pr-checklist)
 3. To look at the problem through fresh eyes
 4. To encourage good design and progress of the codebase
 5. To ask for the PR to be small enough so they can productively review it
+6. To look for potentially missing automated tests
 
 ### Timescale
 
