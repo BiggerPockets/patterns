@@ -13,8 +13,6 @@ module SomeArea
   module SomeApp
     module SomeComponent
       class MyClass
-        ...
-
         def my_method
           SomeArea::SomeApp::MyOtherClass.new
         end
@@ -31,8 +29,6 @@ module SomeArea
   module SomeApp
     module SomeComponent
       class MyClass
-        ...
-
         def my_method
           MyOtherClass.new
         end
