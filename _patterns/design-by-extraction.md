@@ -5,7 +5,7 @@ name: Design by Extraction
 
 If you're presented with a problem that has already been solved by loads of duplication and you want to reduce some of
 that duplication by introducing a design, make sure that whatever design you're proposing reduces some of that
-duplication.
+duplication, and make a plan to replace the other duplications with your new design.
 
 It's better to be intentional about global rewrites than to solve one problem one time with a one-off design.
 
