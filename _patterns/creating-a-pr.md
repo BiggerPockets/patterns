@@ -57,7 +57,7 @@ Make sure you include everything on the [PR Checklist](#pr-checklist)
 ### Timescale
 
 * When asked to review a PR, please let the author know when you'll be able to review it
-* Leave a comment on the PR tagging the author with the expectation, for example:
+* Send a Slack message to the author with the expectation, for example:
 
 > @authorname I'll review this at 10am GMT Friday 13th March
 
