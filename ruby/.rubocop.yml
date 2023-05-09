@@ -146,6 +146,7 @@ Rails/RedundantPresenceValidationOnBelongsTo:
 Rails/SkipsModelValidations:
   AllowedMethods:
     - increment!
+    - update_counters
 Rails/UnknownEnv:
   Environments:
     - test
