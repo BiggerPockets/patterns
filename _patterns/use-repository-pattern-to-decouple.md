@@ -12,7 +12,7 @@ The ActiveRecord pattern that Rails uses mixes two different concerns:
 
 ## The symptoms
 
-* Large God classes - `SocialUser`
+* Large classes
 * Behaviour that's difficult to test
 * Slow tests
 * Lots of mocking and stubbing
