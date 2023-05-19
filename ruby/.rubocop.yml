@@ -134,6 +134,8 @@ Naming/RescuedExceptionsVariableName:
 
 Rails:
   Enabled: true
+  Exclude:
+    - db/schema.rb
 Rails/ActionFilter:
   Enabled: true
   EnforcedStyle: action
