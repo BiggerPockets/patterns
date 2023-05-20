@@ -1,6 +1,6 @@
 ---
 categories: Ruby
-name: Use Repository pattern to decouple persistence from domain logic
+name: Use Repository pattern to decouple persistence from domain logic for API calls
 ---
 
 ## The problem
@@ -14,8 +14,8 @@ The ActiveRecord pattern that Rails uses mixes two different concerns:
 
 * Large classes
 * Behaviour that's difficult to test
-* Slow tests
 * Lots of mocking and stubbing
+* Lack of domain language in the codebase
 
 ## What's domain logic? What's persistence?
 
@@ -48,8 +48,7 @@ These are different concerns.
 
 By putting them together, we're giving the object more reasons to change.
 
-* Domain logic is fast, persistence is slow
-* Domain logic is business related, persistence is technology related
+Domain logic is business related, persistence is technology related.
 
 Fine... but how does this affect us?
 
@@ -82,6 +81,8 @@ plan_id = Billing::ExtractPlanFromStripeSubscription.new.call(subscription)     
 return if subscription_upgraded_downgraded_or_renewed?(user:, subscription:)
 ```
 
+How can we upgrade Stripe here? It's an "all or nothing" approach fraught with risks and hundreds of changes across the codebase.
+
 **With Repositories**
 
 ```ruby
@@ -91,7 +92,7 @@ invoice = @invoice_repo.with_subscription!(id: invoice_id, include: :subscriptio
 
 return if invoice.subscription_inactive?
 
-investor = @investor_repo.find(invoice.subscription_owner_id)
+investor = SocialUser.find(invoice.subscription_owner_id) # Still using Active Record for database backed models
 
 return if investor.upgraded? || investor.downgraded? || investor.renewed?
 ```
@@ -176,15 +177,8 @@ end
 
 For testing, we can dependency inject an **in memory** repository.
 
-This would speed up the test suite at the expense of added complexity.
-
-Given Rails' reliance on ActiveRecord, this repository pattern should be used carefully.
-
-It may make sense to still have AR backed models write to the database and only use repositories for APIs.
-
 ## The cons
 
-* Doesn't play nice with ActiveRecord
 * Can lead to coupling across features
 * More code
 * Unfamiliar to Rails developers
@@ -192,7 +186,6 @@ It may make sense to still have AR backed models write to the database and only 
 
 ## Mitigations
 
-* Doesn't play nice with ActiveRecord - let Rails be Rails where it makes sense
 * Can lead to coupling across features - limit repositories to bounded contexts
 * More code - possibly use libraries for some reusable parts of repositories
 * Unfamiliar to Rails developers - this document and workshops
