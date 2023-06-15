@@ -25,7 +25,7 @@ Consider this scenario:
    report. She indends for this new global function to be reused elsewhere, so she adds it to a module and then
    inlcudes that module in her report, but in doing so, **she only replaces the function in her report.**
 1. Bob notices Alice's new module and how it could enable consolidation of many similar APR-per-month functions.
-   During code reivew, Bob makes a note of this to Alice.Iit would be beneficial to spend time refactoring the other
+   During code review, Bob makes a note to Alice that it would be beneficial to spend time refactoring the other
    instances of the similar functions so that total duplication is reduced, especially since Alice has introduced a
    new global function to accomplish the calculation.
 
