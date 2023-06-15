@@ -13,8 +13,6 @@ YARD is primarily a documentation tool. It's in use by many other teams and powe
 developer sanity by giving us tools to document all the things that we expect a method to take, and what we expect it
 to return or raise.
 
-Additionally, we're already using YARD whenever we create a `ViewComponent` preview.
-
 # A YARD example
 
 Here's an example of using YARD in practice to document method signatures. This example highlights two YARD
