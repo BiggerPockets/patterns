@@ -269,3 +269,9 @@ Style/WhileUntilModifier:
   Enabled: false
 Style/WordArray:
   EnforcedStyle: brackets
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyle: consistent_comma
+Style/TrailingCommaInArguments:
+  EnforcedStyle: consistent_comma
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyle: consistent_comma
