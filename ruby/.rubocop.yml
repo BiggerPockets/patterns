@@ -270,8 +270,8 @@ Style/WhileUntilModifier:
 Style/WordArray:
   EnforcedStyle: brackets
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyle: consistent_comma
+  EnforcedStyleForMultiline: consistent_comma
 Style/TrailingCommaInArguments:
-  EnforcedStyle: consistent_comma
+  EnforcedStyleForMultiline: consistent_comma
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyle: consistent_comma
+  EnforcedStyleForMultiline: consistent_comma
