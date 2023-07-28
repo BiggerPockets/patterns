@@ -38,6 +38,8 @@ track(event: "membership.sign_up.created")
 
 ## Javascript
 
+Don't use a Regular Expression when a plain ole string will be easier to grep for:
+
 ### Do this
 
 ```js
