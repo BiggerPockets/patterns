@@ -7,7 +7,7 @@ When writing code, strive to ensure that _named things_ can quickly be found by 
 
 # Why?
 
-Other teams in the business know only the name of the thing thing, not the implementation. Therefor, using their name means that the implementation is self-documenting, and other engineers can quickly use that name to find where it is used.
+Other teams in the business know only the name of the thing thing, not the implementation. Therefore, using their name means that the implementation is self-documenting, and other engineers can quickly use that name to find where it is used.
 
 # Examples
 
