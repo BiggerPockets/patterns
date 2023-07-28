@@ -102,3 +102,30 @@ class NotificationsController < ApplicationController
   end
 end
 ````
+
+This does not mean that you should willy-nilly add related routes that are not resourceful, even if the route
+would affect the same resource:
+
+### Bad
+
+```ruby
+class NotificationsController < ApplicationController
+  # POST /notifications/:id/read
+  def read
+    # mark a notification as read
+  end
+end
+```
+
+### Good
+
+It's probably best to simply handle this via the #update action, but if it absolutely has to be a separate route, here's what should be done:
+
+```ruby
+class Notifications::ReadsController < ApplicationController
+  # POST /notifications/:id/read
+  def create
+     # mark a notification as read
+  end
+end
+```
