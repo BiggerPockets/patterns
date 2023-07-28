@@ -70,7 +70,8 @@ end
 
 When applying this rule, consider the mental overhead of extracting a new resource out of a controller. For example, if
 you want to give the user the ability to delete everything in a collection, it may make more sense to keep similar
-logic near the other actions. In this case, it's OK to not follow this pattern.
+logic near the other actions. In this case, it's OK to declare colletion resource routes such as `create_all`,
+`update_all`, and `delete_all`.
 
 ### Bad
 
