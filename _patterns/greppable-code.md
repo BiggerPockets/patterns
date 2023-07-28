@@ -36,6 +36,28 @@ end
 track(event: "membership.sign_up.created")
 ```
 
+## Javascript
+
+### Do this
+
+```js
+const ids = ["nav-desktop-menu-toggle", "nav-mobile-menu-toggle"];
+
+if (ids.indexOf(someElement.id)) {
+  // ...
+}
+```
+
+### Not this
+
+```js
+const regex = /#nav-(desktop|mobile)-menu-toggle/;
+
+if (regex.match(someElement.id)) {
+  // ...
+}
+```
+
 ## HTML class attributes
 
 Newer versions of CSS allow us to style things based on partial matches of the class name. This should be avoided.
