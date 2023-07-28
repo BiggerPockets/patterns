@@ -3,13 +3,13 @@ categories: Ruby, JavaScript, PHP, CSS, Rails
 name: Write Greppable Code
 ---
 
-When writing code, strive to ensure that _named things_ can quickly be found by their name. Avoid using interpolation, clever pattern matching, or string assembly to translate names because this makes them harder to find.
+When writing code, strive to ensure that _named things_ can quickly be found by their name. Avoid using interpolation, clever pattern matching, or string assembly to translate names because this makes them harder to find. Be explicit, don't invent names based on their context.
 
 # Why?
 
 Other teams in the business know only the name of the thing thing, not the implementation. Therefor, using their name means that the implementation is self-documenting, and other engineers can quickly use that name to find where it is used.
 
-# Example
+# Ruby
 
 In this example, assume that there are events generated for a "Sign Up Created" event. A non-engineering team uses this exact term to inform business decisions.
 
@@ -27,7 +27,7 @@ track(event: "Sign Up Created")
 
 ```ruby
 def track(event:)
-  event_name = event.split(".").last(2).map(&:capitalize).join(" ")
+  event_name = event.split(".").last(2).map(&:capitalize).join(" ") # => "Sign Up Created"
   Analytics.track(event: event_name)
 end
 
