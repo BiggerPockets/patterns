@@ -20,13 +20,13 @@ def perform(market:, current_user: nil)
 end
 ```
 
-The `current_user` param can probably be inferred from its name, but the `market` param
-cannot: is a `String` or other object expected? A developer would need to read the method and potentially investgate
-other callers to see how this method is used.
+The `current_user` parameter can probably be inferred from its name, but the `market` parameter cannot: is a `String` or
+some other object expected? A developer would need to read the method and potentially investgate other callers to see
+how this method is used.
 
 ## Good
 
-Here's the same method with YARD annotations.
+Here's the same method with YARD annotations:
 
 ```ruby
 # @param market [Market]
