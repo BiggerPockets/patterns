@@ -26,8 +26,8 @@ end
 
 ## Good
 
-Here's the same code with YARD annotations. Now it's obvious what the method expects for the the `market` parameter. It
-also lets the developer know that the method is supposed to return an `Array` composed of `Agent` objects, but it may
+Here's the same code with YARD annotations. Its's now obvious what the method expects for the the `market` parameter. It
+also lets the developer know that the method returns an `Array` composed of `Agent` objects, but it may
 also return `nil`, so callers need to be ready to handle that.
 
 ```ruby
