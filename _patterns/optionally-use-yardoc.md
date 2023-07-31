@@ -8,10 +8,6 @@ developers reason about the expectations that the code makes and know when it ne
 
 # Example
 
-
-
-Here's an example of using YARD in practice to document method signatures:
-
 ## Bad
 
 Consider the following code. The `current_user` param can probably be inferred from its name, but the `market` param
