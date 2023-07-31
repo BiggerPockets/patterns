@@ -6,11 +6,29 @@ name: Use YARD to document method signatures
 [YARD](https://yardoc.org) is a Ruby documentation tool that's been around for a while. When used well, it can help
 developers reason about the expectations that the code makes and know when it needs to be extended for new scenarios.
 
-# An Example
+# Example
 
-Here's an example of using YARD in practice to document method signatures. This example highlights two YARD
-keywords: `@param` and `@return`, but there are
-[many others](https://rubydoc.info/gems/yard/file/docs/GettingStarted.md).
+
+
+Here's an example of using YARD in practice to document method signatures:
+
+## Bad
+
+Consider the following code. The `current_user` param can probably be inferred from its name, but the `market` param
+cannot: is a `String` or other object expected? A developer would need to read the method and potentially investgate
+other callers to see how this method is used.
+
+```ruby
+def perform(market:, current_user: nil)
+  # ...
+end
+```
+
+## Good
+
+Here's the same code with YARD annotations. Now it's obvious what the method expects for the the `market` parameter. It
+also lets the developer know that the method is supposed to return an `Array` composed of `Agent` objects, but it may
+also return `nil`, so callers need to be ready to handle that.
 
 ```ruby
 # @param market [Market]
@@ -21,9 +39,7 @@ def perform(market:, current_user: nil)
 end
 ```
 
-The benefit of the annotation is reduced ambiguity. The `current_user` param can probably be inferred from its name, but
-the `market` param cannot: is a String or other object expected? An developer would need to read the method and
-potentially investgate other callers to see how this method is used.
+The benefit of the annotation is reduced ambiguity.
 
 # Why
 
