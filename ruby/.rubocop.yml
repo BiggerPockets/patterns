@@ -157,6 +157,8 @@ Rails/UnknownEnv:
     - staging
     - review
     - production
+Rails/Output:
+  Enabled: false
 
 Style/AccessModifierDeclarations:
   Enabled: false
