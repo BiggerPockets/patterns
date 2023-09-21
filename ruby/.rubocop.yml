@@ -147,9 +147,7 @@ Rails/DynamicFindBy:
 Rails/RedundantPresenceValidationOnBelongsTo:
   Enabled: false
 Rails/SkipsModelValidations:
-  AllowedMethods:
-    - increment!
-    - update_counters
+  Enabled: false
 Rails/UnknownEnv:
   Environments:
     - test
