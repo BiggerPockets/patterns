@@ -15,29 +15,17 @@ This has a number of issues:
 
 Calling any method on `nil` results in a crash.
 
-So we must remember to use the safe navigator or use an `if current_user` guard clause around any code that uses `current_user`.
+So engineers must remember to use the safe navigator or use an `if current_user` guard clause around any code that uses `current_user`.
 
-The code doesn't help us prevent mistakes.
+The design doesn't help us spot or prevent mistakes.
 
-**2. Encourages helper methods**
-
-In [`Api::V1::BaseController#current_user`](https://github.com/BiggerPockets/biggerpockets/blob/aec6663c398a3e5b39e06caf4065e4fdde30a632/app/controllers/api/v1/base_controller.rb#L49-L53):
-
-```ruby
-def current_user
-  return @_current_user if defined?(@_current_user)
-
-  @_current_user ||= SocialUser.not_deactivated.find_by id: user_data_from_token["id"]
-end
-```
-
-**3. Difficult to reason about**
+**2. Difficult to reason about**
 
 Because of the hacks above, logged out behaviour is difficult to reason about.
 
 There's no place in the code we can see how a guest user should behave.
 
-**4. Lack of consistency**
+**3. Lack of consistency**
 
 We have methods to query about every aspect of a user - `#admin?`, `#moderator?` etc .
 
@@ -45,7 +33,7 @@ When it comes to what should be a simple `#guest?` method, we instead have to do
 
 Every `if` results in an increase in cyclomatic complexity and an extra thing to test for.
 
-**5. Special case code for tracking**
+**4. Tracking becomes complex**
 
 We need to do tricks like this:
 
@@ -59,7 +47,7 @@ def user_id
 end
 ```
 
-This adds complexity to the tracking code.
+The code is littered with `user_id` and `anonymous_id` being passed as two separate parameters when really they both belong to a user.
 
 ## Solution
 
