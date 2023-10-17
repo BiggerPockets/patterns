@@ -33,7 +33,7 @@ When it comes to what should be a simple `#guest?` method, we instead have to do
 
 Every `if` results in an increase in cyclomatic complexity and an extra thing to test for.
 
-**4. Tracking becomes complex**
+**4. Increases complexity**
 
 We need to do tricks like this:
 
@@ -47,7 +47,7 @@ def user_id
 end
 ```
 
-The code is littered with `user_id` and `anonymous_id` being passed as two separate parameters when really they both belong to a user.
+Specifically for tracking, the code is littered with `user_id` and `anonymous_id` being passed as two separate parameters when really they both belong to a user.
 
 ## Solution
 
