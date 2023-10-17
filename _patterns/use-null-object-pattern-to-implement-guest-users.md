@@ -31,31 +31,19 @@ def current_user
 end
 ```
 
-We also have two methods - `#logged_in?` and `#logged_out?` in [an `Authentication` concern](https://github.com/BiggerPockets/biggerpockets/blob/aec6663c398a3e5b39e06caf4065e4fdde30a632/app/controllers/concerns/authentication.rb#L92-L99) that are used in 400+ places through the codebase:
-
-```ruby
-def logged_in?
-  !!current_user
-end
-
-def logged_out?
-  !logged_in?
-end
-```
-
-These methods belong on the user model, not globally accessible helpers.
-
 **3. Difficult to reason about**
 
 Because of the hacks above, logged out behaviour is difficult to reason about.
 
-There's no place in the code we can see how a logged out user should behave.
+There's no place in the code we can see how a guest user should behave.
 
 **4. Lack of consistency**
 
 We have methods to query about every aspect of a user - `#admin?`, `#moderator?` etc .
 
-When it comes to what should be a simple `#guest?` or `#logged_in?` method, we can't and instead have to rely on the helpers above.
+When it comes to what should be a simple `#guest?` method, we instead have to do hacky `if` statements like `if current_user`.
+
+Every `if` results in an increase in cyclomatic complexity and an extra thing to test for.
 
 **5. Special case code for tracking**
 
@@ -84,9 +72,11 @@ class GuestSocialUser
   def admin? = false
   def regular? = false
   def guest? = true
+
   # For AR relations, `.none` gives back no objects
   def conversations = Conversation.none
-  # To set the anonymous ID in memory
+
+  # Set the anonymous ID in memory
   def with_anonymous_id(anonymous_id)
     self.anonymous_id = anonymous_id
     self
