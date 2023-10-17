@@ -82,91 +82,84 @@ Use an object to encapsulate the behaviour of a guest user.
 ```ruby
 class GuestSocialUser
   def admin? = false
-  def logged_in? = false
-  def logged_out? = true
-  def tracking_id
-    # Code to get the anonymous ID for Segment
+  def regular? = false
+  def guest? = true
+  # For AR relations, `.none` gives back no objects
+  def conversations = Conversation.none
+  # To set the anonymous ID in memory
+  def with_anonymous_id(anonymous_id)
+    self.anonymous_id = anonymous_id
+    self
   end
-  # ... all other methods that user responds to ...
+  # ... all other methods that social user responds to ...
 end
 ```
 
-**2. Update `current_user` to return a `GuestSocialUser`**
-
-For example:
-
-```diff
- def current_user
--  return @_current_user if defined?(@_current_user)
--
--  @_current_user ||= SocialUser.not_deactivated.find_by id: user_data_from_token["id"]
-+  @_current_user ||= SocialUser.not_deactivated.find_by(id: user_data_from_token["id"]) || GuestSocialUser.new
- end
-```
-
-Or we could create a class method to further encapsulate:
+**2. Create a `User.current` factory method**
 
 ```ruby
-class SocialUser
-  def self.from_auth_token(auth_token)
-    if auth_token
+class User
+  def self.current(auth_token:, cookies:)
+    current_user = if auth_token
       # ... decode token and extract id ...
-      not_deactivated.find_by(id: id_from_token) || guest
+      SocialUser.not_deactivated.find_by(id: id_from_token) || GuestSocialUser.new
     else
-      guest
+      GuestSocialUser.new
     end
-  end
-
-  def self.guest
-    GuestSocialUser.new
+    current_user.with_anonymous_id(cookies[:ajs_anonymous_id])
   end
 end
 ```
 
-Then:
+Simplify the `current_user` helper method:
 
 ```diff
  def current_user
 -  return @_current_user if defined?(@_current_user)
 -
 -  @_current_user ||= SocialUser.not_deactivated.find_by id: user_data_from_token["id"]
-+  @_current_user ||= SocialUser.from_auth_token(auth_token)
++  @_current_user ||= User.current(auth_token:, cookies:)
  end
 ```
 
 **3. Update all callers**
 
-Some examples:
+Now everywhere we have `current_user` we can depend on it being a user.
 
-```diff
--if logged_in?
-+if current_user.logged_in?
-```
-
-```diff
--if current_user
-+if current_user.logged_in?
-```
+No more `if current_user.blank?`:
 
 ```diff
  class ConversationChannel < ApplicationCable::Channel
    def subscribed
--   return if current_user.blank?
+-    return if current_user.blank?
      return unless (conversation = current_user.conversations.find_by(id: params.fetch(:id)))
 
      stream_for conversation
    end
  end
+```
 
- class GuestSocialUser
-   # ... existing code ...
-+  def conversations
-+    Conversation.none
-+  end
+For tracking, we ditch `user_id` and `anonymous_id` in favour of `user`:
+
+```diff
+ class UserTrackingJob < ApplicationJob
+   queue_as :within_five_minutes
+ 
+-  def perform(user_id, event, properties = {}, context = {}, anonymous_id = "")
++  def perform(user, event, properties = {}, context = {})
+     UserTracking.track(
+-      user_id: user_id,
++      user:,
+       event: event,
+       properties: properties,
+       context: context,
+-      anonymous_id: anonymous_id,
+     )
+   end
  end
 ```
 
-# Example
+# Examples
 
 ## Bad
 
@@ -187,18 +180,30 @@ Some examples:
 
 ```ruby
   def login_required
-    return if current_user.logged_in?
+    respond_with_forbidden if current_user.guest?
+  end
 
+  def respond_with_forbidden
     respond_to do |format|
       format.json do
         render json: { errors: ["You must be logged in to do that"], not_logged_in: true }.to_json,
-               status: :forbidden
+              status: :forbidden
       end
     end
   end
 ```
 
 ## Bad
+
+```ruby
+if current_user
+  track(current_user.id, "Account Request Created")
+else
+  track(nil, "Account Request Created", {}, {}, cookies[:ajs_anonymous_id])
+end
+```
+
+Method definition:
 
 ```ruby
 def track(tracking_id, event_name, attributes = {}, context = {}, anonymous_id = "")
@@ -212,68 +217,111 @@ def track(tracking_id, event_name, attributes = {}, context = {}, anonymous_id =
     anonymous_id.presence || Events::Context.anonymous_user_id_from_email(cookies: cookies),
   )
 end
-
-# ... somewhere else ...
-
-if current_user
-  track(current_user.id, "...", {}, {}, "")
-else
-  track(nil, "...", {}, {}, cookies[:ajs_anonymous_id])
-end
 ```
 
 ## Good
+
+```ruby
+track(current_user, "Account Request Created")
+```
+
+Method definition:
 
 ```ruby
 def track(user, event_name, attributes = {}, context = {})
   return if attributes[:skip_event]
 
   UserTrackingJob.perform_later(
-    user.id,
+    user,
     event_name,
     attributes,
     context_attributes.merge(context),
-    user.anonymous_id,
   )
 end
-
-# ... use this method ...
-
-track(
-  current_user,
-  "Viewed Calculator PDF",
-  "calculator_type" => "Rehab Estimator",
-  "id" => params[:id],
-)
-
-# ... in the base controller ...
-def current_user
-  @_current_user ||= SocialUser.from(auth_token:, anonymous_id: cookies[:ajs_anonymous_id])
-end
-
-# ... in the SocialUser ...
-class SocialUser
-  # Factory method to encapsulate complexity of finding a user
-  def self.from(auth_token:, anonymous_id:)
-    anonymous_id = anonymous_id.presence || Events::Context.generate_anonymous_id
-    if auth_token
-      # ... decode token and extract id ...
-      user = not_deactivated.find_by(id: id_from_token)
-      if user
-        user.anonymous_id = anonymous_id  # in memory attribute on social user
-        user
-      else
-        guest(anonymous_id:)
-      end
-    else
-      guest(anonymous_id:)
-    end
-  end
-
-  def self.guest(anonymous_id:)
-    GuestSocialUser.new(anonymous_id:)
-  end
-end
-
-
 ```
+
+## Bad
+
+```ruby
+def most_recent_lead
+  return nil if current_user.blank?
+
+  Rails.cache.fetch("most_recent_lead_#{current_user}") do
+    investor_leads.most_recent.first
+  end
+end
+
+def investor_leads
+  @_investor_leads ||= Marketplace::Businesses::Lead.where(investor: current_user)
+end
+```
+
+## Good
+
+```ruby
+def most_recent_lead
+  Rails.cache.fetch("most_recent_lead_#{current_user}") do
+    current_user.investor_leads.most_recent.first
+  end
+end
+```
+
+```ruby
+class SocialUser
+  # Use a proper active record relation, not a memoized cached variable in the controller
+  has_many :investor_leads 
+end
+
+class GuestSocialUser
+  # Duck type the relation to return no objects
+  def investor_leads 
+    Marketplace::Businesses::Lead.none
+  end
+end
+```
+
+# Why?
+
+See the problems above. Using the null object pattern for guest users will result in:
+
+## 1. Less footguns
+
+No more crashes when you call `current_user.investor_leads` and the user is logged out.
+
+## 2. Simpler code at the call site
+
+As seen above in the examples, we're pushing complexity into `GuestSocialUser` and `User`.
+
+This results in simpler call site code around `current_user`.
+
+## 3. Easier to reason about
+
+There's an extra abstraction, but you only need to look in there when you want to understand how it works.
+
+The details will be hidden behind the user duck type.
+
+At the call sites the code will be simpler, so will be easier to reason about.
+
+In addition, there will be one place in the codebase - `GuestSocialUser` - that will describe the behaviour of a logged out or guest user.
+
+Currently this behaviour is scattered throughout the codebase on a case by case basis.
+
+## 4. Improved consistency
+
+Just pass around `user`. No need for special `if` cases that cover different edge cases.
+
+Get user. Call method you want. One programming model means consistency.
+
+## 5. Simplifies tracking
+
+Currently we need to pass around `user_id` and `anonymous_id` over and over again.
+
+This is a [Data Clump](https://sourcemaking.com/refactoring/smells/data-clumps) code smell.
+
+By encapsulating both these methods into the user abstraction, all the tracking code would become radically simpler and easier to reason about.
+
+# Drawbacks
+
+* An extra model - `GuestSocialUser` - will attract significant extra complexity
+* Wide reaching change across the codebase - this move would have to be done gradually over many PRs
+* Another abstraction to reason about when debugging
