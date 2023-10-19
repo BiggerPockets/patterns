@@ -15,27 +15,31 @@ This has a number of issues:
 
 Calling any method on `nil` results in a crash.
 
-So engineers must remember to use the safe navigator or use an `if current_user` guard clause around any code that uses `current_user`.
+New engineers must learn that `current_user` can be `nil`.
+
+Engineers must also remember to use the safe navigator or `if current_user` guard clause around any code that calls methods on `current_user`.
 
 The design doesn't help us spot or prevent mistakes.
 
 **2. Difficult to reason about**
 
-Because of the hacks above, logged out behaviour is difficult to reason about.
+Logged out behaviour is difficult to reason about because the logic is spread throughout the app in the `if` statements and safe navigators.
 
 There's no place in the code we can see how a guest user should behave.
 
 **3. Lack of consistency**
 
-We have methods to query about every aspect of a user - `#admin?`, `#moderator?` etc .
+We have methods to query permission levels of a user - `#admin?`, `#moderator?` etc.
 
-When it comes to what should be a simple `#guest?` method, we instead have to do hacky `if` statements like `if current_user`.
+Instead of using `#guest?`, we need to rely on `if` statements as mentioned above.
 
 Every `if` results in an increase in cyclomatic complexity and an extra thing to test for.
 
 **4. Increases complexity**
 
-We need to do tricks like this:
+When tracking, we have `user_id` and `anonymous_id` as two separate objects.
+
+So we need code such as:
 
 ```ruby
 def user_id_or_anonymous_id
@@ -47,7 +51,11 @@ def user_id
 end
 ```
 
-Specifically for tracking, the code is littered with `user_id` and `anonymous_id` being passed as two separate parameters when really they both belong to a user.
+The anonymous ID and user ID are two separate attributes of the user.
+
+We need special cases to handle user ID and anonymous IDs for guest users.
+
+In addition, without a guest user abstraction, it can be tempting to merge the user ID and anonymous ID as above, which is incorrect [^1].
 
 ## Solution
 
@@ -260,46 +268,44 @@ end
 
 # Why?
 
-See the problems above. Using the null object pattern for guest users will result in:
+Using the null object pattern for guest users will result in:
 
 ## 1. Less footguns
 
-No more crashes when you call `current_user.investor_leads` and the user is logged out.
+No more crashes if calling `current_user.some_method` and the user is logged out.
 
 ## 2. Simpler code at the call site
 
-As seen above in the examples, we're pushing complexity into `GuestSocialUser` and `User`.
+Pushing complexity into `GuestSocialUser` and `User` means simpler call site code around `current_user`.
 
-This results in simpler call site code around `current_user`.
+The cyclomatic complexity of the `if current_user` would be pushed into one place - inside the factory method.
 
 ## 3. Easier to reason about
 
-There's an extra abstraction, but you only need to look in there when you want to understand how it works.
+One class - `GuestSocialUser` - describes the behaviour of a logged out or guest user.
 
-The details will be hidden behind the user duck type.
+If an engineer wants to understand the behaviour of a guest user, they have one class to look in.
 
-At the call sites the code will be simpler, so will be easier to reason about.
-
-In addition, there will be one place in the codebase - `GuestSocialUser` - that will describe the behaviour of a logged out or guest user.
-
-Currently this behaviour is scattered throughout the codebase on a case by case basis.
+This might also make the feature access checks code easier to reason about too.
 
 ## 4. Improved consistency
 
-Just pass around `user`. No need for special `if` cases that cover different edge cases.
+Pass around `user`. No need for special `if` cases that cover different edge cases.
 
-Get user. Call method you want. One programming model means consistency.
+One programming model means consistency.
 
 ## 5. Simplifies tracking
 
-Currently we need to pass around `user_id` and `anonymous_id` over and over again.
+Currently we pass around `user_id` and `anonymous_id` together.
 
 This is a [Data Clump](https://sourcemaking.com/refactoring/smells/data-clumps) code smell.
 
-By encapsulating both these methods into the user abstraction, all the tracking code would become radically simpler and easier to reason about.
+By encapsulating both these methods into the user abstraction, all the tracking code would become simpler and easier to reason about.
 
 # Drawbacks
 
 * An extra model - `GuestSocialUser` - will attract significant extra complexity
 * Wide reaching change across the codebase - this move would have to be done gradually over many PRs
 * Another abstraction to reason about when debugging
+
+[^1]: A logged in user should have both a user ID and anonymous ID, whereas a guest user just has anonymous ID. However, they should always be sent to Segment as two separate fields, otherwise users will be incorrectly identified.
