@@ -153,12 +153,7 @@ For tracking, we ditch `user_id` and `anonymous_id` in favour of `user`:
   def login_required
     return if logged_in?
 
-    respond_to do |format|
-      format.json do
-        render json: { errors: ["You must be logged in to do that"], not_logged_in: true }.to_json,
-               status: :forbidden
-      end
-    end
+    respond_with_forbidden
   end
 ```
 
@@ -167,15 +162,6 @@ For tracking, we ditch `user_id` and `anonymous_id` in favour of `user`:
 ```ruby
   def login_required
     respond_with_forbidden if current_user.guest?
-  end
-
-  def respond_with_forbidden
-    respond_to do |format|
-      format.json do
-        render json: { errors: ["You must be logged in to do that"], not_logged_in: true }.to_json,
-              status: :forbidden
-      end
-    end
   end
 ```
 
@@ -189,41 +175,10 @@ else
 end
 ```
 
-Method definition:
-
-```ruby
-def track(tracking_id, event_name, attributes = {}, context = {}, anonymous_id = "")
-  return if attributes[:skip_event]
-
-  UserTrackingJob.perform_later(
-    tracking_id,
-    event_name,
-    attributes,
-    context_attributes.merge(context),
-    anonymous_id.presence || Events::Context.anonymous_user_id_from_email(cookies: cookies),
-  )
-end
-```
-
 ## Good
 
 ```ruby
 track(current_user, "Account Request Created")
-```
-
-Method definition:
-
-```ruby
-def track(user, event_name, attributes = {}, context = {})
-  return if attributes[:skip_event]
-
-  UserTrackingJob.perform_later(
-    user,
-    event_name,
-    attributes,
-    context_attributes.merge(context),
-  )
-end
 ```
 
 ## Bad
@@ -232,9 +187,7 @@ end
 def most_recent_lead
   return nil if current_user.blank?
 
-  Rails.cache.fetch("most_recent_lead_#{current_user}") do
-    investor_leads.most_recent.first
-  end
+  investor_leads.most_recent.first
 end
 
 def investor_leads
@@ -246,16 +199,7 @@ end
 
 ```ruby
 def most_recent_lead
-  Rails.cache.fetch("most_recent_lead_#{current_user}") do
-    current_user.investor_leads.most_recent.first
-  end
-end
-```
-
-```ruby
-class SocialUser
-  # Use a proper active record relation, not a memoized cached variable in the controller
-  has_many :investor_leads 
+  current_user.investor_leads.most_recent.first
 end
 
 class GuestSocialUser
