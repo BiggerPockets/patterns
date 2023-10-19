@@ -248,7 +248,7 @@ By encapsulating both these methods into the user abstraction, all the tracking 
 
 # Drawbacks
 
-* An extra model - `GuestSocialUser` - will attract significant extra complexity
+* Since instances of `SocialUser` respond to 6700+ methods, `GuestSocialUser` will also become large - although we could reuse many of the same mixins
 * Wide reaching change across the codebase - this move would have to be done gradually over many PRs
 * Another abstraction to reason about when debugging
 
