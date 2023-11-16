@@ -27,7 +27,7 @@ Adhere to the following guidelines:
 To create and run your script, follow these steps:
 
 - **Write Your Script as a Rake Task**
-  - Create a class within migration directory script (eg. `/lib/migrations/your_script.rb`)
+  - Create a class within migration directory script (eg. `/lib/migrations/do_x.rb`)
   - Add your task to list of one_off tasks in the file (`/lib/tasks/one_off/migrations.rake`)
   - eg.
     ```ruby
