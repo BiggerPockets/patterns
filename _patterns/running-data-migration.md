@@ -47,6 +47,9 @@ To create and run your script, follow these steps:
     - eg. `heroku run bash --app biggerpockets` and run the rake task `rake one_off:migrations:do_x`
   - Alternatively, run rake task in detached mode usually for long running tasks (https://devcenter.heroku.com/articles/one-off-dynos#running-tasks-in-background)
     - eg. `heroku run:detached rake one_off_migrations:do_x`
+- **Remove The Rake Task and Class**
+  - After executing the rake task in a production environment and is no longer necessary, 
+  the engineer who implemented it is accountable for its removal. 
 
 ## Best Practices for Writing Data Migration Scripts
 Follow [these]({{ site.baseURL }}/practices/best-practices-on-writing-a-script) general good practices when writing a data migration scripts.
