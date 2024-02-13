@@ -2,6 +2,7 @@ require:
   - rubocop-rails
   - rubocop-performance
   - rubocop-rspec
+  - rubocop-capybara
 
 AllCops:
   TargetRubyVersion: 3.2
@@ -16,6 +17,12 @@ AllCops:
     - script/**/*
     - vendor/**/*
     - node_modules/**/*
+
+RSpec:
+ Enabled: false
+
+RSpec/Capybara:
+  Enabled: true
 
 Bundler/OrderedGems:
   Enabled: false
