@@ -27,7 +27,7 @@ Understand why the change is necessary (fixes a bug, improves the user
 experience, refactors the existing code). Then:
 
 * Communicate which ideas you feel strongly about and those you don't.
-* Focus on substantive issues rather than stylistic preferences. It's OK to
+* Focus on substantive issues rather than stylistic preferences. It's okey to
   comment on how you might do something differently and still approve the PR.
   Just because someone does it a different way doesn't mean that the code is
   wrong.
