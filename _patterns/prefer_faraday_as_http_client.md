@@ -23,16 +23,16 @@ require 'extended_httparty'
 response = HTTParty.get('https://jsonplaceholder.typicode.com/posts/1', timeout: 5)
 # GET request with retry
 response = ExtendedHttparty.get('https://jsonplaceholder.typicode.com/posts/1', tries: 5)
-
-External gem for retrying requests with httparty
 ```
 
 ## Good
 
 ```ruby
 require 'faraday'
+
 # GET request
 Faraday.get('https://jsonplaceholder.typicode.com/posts/1')
+
 # GET request with retry
 require 'faraday/retry'
 conn = Faraday.new do |f|
@@ -44,5 +44,6 @@ conn = Faraday.new do |f|
     timeout: 5,
   }
 end
+
 conn.get('https://jsonplaceholder.typicode.com/posts/1')
 ```
