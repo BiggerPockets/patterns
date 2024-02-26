@@ -22,7 +22,7 @@ Rspec's 3.5 release notes https://rspec.info/blog/2016/07/rspec-3-5-has-been-rel
 
 - Can test multiple HTTP requests in each example.
 - Tests full request response cycle, including routing, controllers, and views. Request spec behaviour is closer to the execution in production environment than controller spec.
-- Less cupled with controler behaviour.
+- Less coupled with controller behaviour.
 
 ### 🏎️ Speed
 
