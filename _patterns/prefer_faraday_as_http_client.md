@@ -29,7 +29,7 @@ External gem for retrying requests with httparty
 
 ## Good
 
-```
+```ruby
 require 'faraday'
 # GET request
 Faraday.get('https://jsonplaceholder.typicode.com/posts/1')
