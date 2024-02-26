@@ -37,11 +37,11 @@ Faraday.get('https://jsonplaceholder.typicode.com/posts/1')
 require 'faraday/retry'
 conn = Faraday.new do |f|
   f.request :retry, {
-    max: 2,
+    max: 5,
     interval: 0.05,
     interval_randomness: 0.5,
     backoff_factor: 2,
-    timeout: 2,
+    timeout: 5,
   }
 end
 conn.get('https://jsonplaceholder.typicode.com/posts/1')
