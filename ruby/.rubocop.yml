@@ -21,6 +21,9 @@ AllCops:
 RSpec:
  Enabled: false
 
+FactoryBot:
+  Enabled: false
+
 RSpec/Capybara:
   Enabled: true
 
