@@ -12,4 +12,6 @@ collections:
     output: true
     permalink: /:categories/:name
     layout: "pattern"
+plugins:
+  - jekyll-lunr
 exclude: ["README.md"]
