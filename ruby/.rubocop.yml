@@ -282,8 +282,8 @@ Style/WhileUntilModifier:
 Style/WordArray:
   EnforcedStyle: brackets
 Style/TrailingCommaInArrayLiteral:
-  EnforcedStyleForMultiline: false
+  Enabled: false
 Style/TrailingCommaInArguments:
-  EnforcedStyleForMultiline: false
+  Enabled: false
 Style/TrailingCommaInHashLiteral:
-  EnforcedStyleForMultiline: false
+  Enabled: false
